@@ -2,11 +2,7 @@
 <h2 align="center">Time Series Motif Discovery</h2>
 <p>
 
-Motif Discovery consists of identifying repeated patterns and locating their occurrences in a time series without prior knowledge about their shape or location.
-In practice motif discovery faces several data-related challenges which has lead to numerous definition of the motif discovery problem and algorithms partially encompassing these challenges. 
-In this repo, we provide a set of real time series labeled specifically for the purpose of motif discovery, as well as a set of algorithms carefully chosen to best represent the litterature spectrum.
-We also provide an analysis of strengths and weaknesses of these selected algorithms. The analysis follows research questions that we have identified on the basis of challenges encounter in practice.
-Our experimental results should provide a practical guide for selecting the most suitable algorithm for motif discovery and open new research directions.
+Motif Discovery consists of identifying repeated patterns and locating their occurrences in a time series without prior knowledge about their shape or location. In practice motif discovery faces several data-related challenges which has lead to numerous definition of the motif discovery problem and algorithms partially encompassing these challenges. In this paper, we provide an exhaustive review of the literature in terms of data-related challenges, motif definitions, and algorithms. We also present an analysis of strengths and weaknesses of algorithms carefully chosen to best represent the litterature spectrum. The analysis follows research questions we identified from our review. Our experimental results provide practical guidelines for selecting motif discovery algorithms suitable for the task at hand and open to new research directions.
 
 ## Contributors
 

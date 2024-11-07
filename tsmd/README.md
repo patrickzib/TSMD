@@ -10,6 +10,21 @@ The following motivations drive our selection of Motif Discovery methods:
 
 These criteria led us to choose the following methods: 
 
+| Methods               | family | Parameters | Complexity (Worst Case) |
+|-----------------|----------------------------|----------------------------------------|--------------------------------------------------------|
+| SetFinder       |  Frequency                 | $K,w,R$                                | $O(n^3)$                                               |
+| LatentMotif     |  Frequency                 | $K,w,R$                                | $O(wn)$                                                |
+| STOMP           |  Similarity                | $K,w,r$                                | $O(n^2)$                                               |
+| VALMOD          |  Similarity                | $K,w_{\min},w_{\max},r$                | $O((w_{\max} - w_{\min})n^2)$                          |
+| PanMP           |  Similarity                | $K, w_{\min},w_{\max}, r$              | $O((w_{\max} - w_{\min})n^2)$                          |
+| $k$-Motiflets   |  Similarity                | $k_{\max},w_{\min},w_{\max}$           | $O(k_{\max}n^2 + nk_{\max}^2)$                         |
+| PEPA            |  Similarity                | $w_{\min},K$                           | $O(Kn^2)$                                              |
+| A-PEPA          |  Similarity                | $w_{\min}$                             | $O(Kn^2)$                                              |
+| GrammarViz      |  Encoding                  | $K,w$                                  | $O(wn^2)$                                              |
+| MDL-Clust       |  Encoding                  | $w_{\min}, w_{\max}$                   | $O(n^3/w_{min} + (w_{max} - w_{min})n^2 )^*$           |
+| LoCoMotif       |  Encoding                  | $K,w_{\min},w_{\max}$                  | $O(n^2\frac{w_{\max} - w_{\min}}{w_{\min}})$           |
+
+
 ### SetFinder 
 
 This algorithm finds the K-motif sets directly, based on a counting and separating principle. In practice, each subsequence is compared to every other, and the non-overlapping matches  are counted. Then, each subsequence with a non-zero count is checked to ensure that its distance to another subsequence with a larger number of matches is greater than a given threshold.

@@ -4,6 +4,18 @@
 
 You can download the datasets here: TBD
 
+| Dataset                 | # TS | TS len. | # motifs | # motifs per TS  | ratio motif | avg. Motif len. | intra Motif len. (std) | Inter M.otif len.(std) |
+|-------------------------|------|---------|----------|------------------|-------------|-----------------|------------------------|------------------------|
+| arm-CODA                | 64   | 8,050   | 7        | 5                | 0.65        | 520             | 22                     | 88         |
+| mitdb                   | 100  | 20,000  | 10       | 1.6              | 0.99        | 281             | 36                     | 10         |
+| mitdb1                  | 100  | 20,000  | 1        | 1                | 0.98        | 320             | 12                     | 0          |
+| ptt-ppg                 | 100  | 20,000  | 1        | 1                | 0.98        | 324             | 15                     | 0          |
+| REFIT                   | 100  | 210,870 | 3        | 2.2              | 0.08        | 410             | 13                     | 34         |
+| SIGN                    | 50   | 172,780 | 3        | 3                | 0.10        | 74              | 34                     | 3          |
+| JIGSAWMaster            | 23   | 10,300  | 8        | 3.8              | 0.66        | 156             | 38                     | 66         |
+| JIGSAWSlave             | 32   | 10,160  | 9        | 3.9              | 0.65        | 146             | 35                     | 60         |
+
+
 ### arm-CODA 
 
 It is a dataset of 240 multivariate time series collected using 34 Cartesian Optoelectronic Dynamic Anthropometers (CODA) placed on the upper limbs of 16 healthy subjects, each of whom performed 15 predefined movements. Each sensor records its position in 3D space. To construct the dataset, we kept the left forearm sensor of ID 29 and 5 of the predefined movements. The occurrences of the five movements were randomly placed along the time axis for each subject, sensor, and dimension. Gaussian noise with a signal-to-noise ratio of 0.01 is added to all time series. This resulted in a dataset of 64 univariate time series.

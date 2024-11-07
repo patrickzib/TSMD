@@ -29,6 +29,8 @@ class Experiment:
         self.njobs = njobs
         self.verbose = verbose
 
+
+
     def compute_scores(self,label,prediction): 
 
         single_pred = np.clip(np.sum(prediction,axis=0),0,1).reshape(1,-1) 
@@ -134,7 +136,8 @@ class Experiment:
                         signal_id=signal_name +'_iteration_' + str(rep+1) 
                 else:
                     signal_id=signal_name
-                results_path= self.dataset_path + 'Results/'
+                #we register the execution time even if the methods failed to fit
+                results_path=self.results_path
                 if not os.path.exists(results_path):
                     os.makedirs(results_path)
                 infos_path = results_path + 'Infos/' + algo_name + '/'
@@ -248,7 +251,8 @@ class Experiment:
 
 
     def save_results(self,dataset_path,df,algo_name,exec_time,signal_name,n_patterns,predicted_n_patterns,config):
-        results_path= dataset_path + 'Results/'
+    
+        results_path= self.results_path
         if not os.path.exists(results_path):
             os.makedirs(results_path)
         metrics_path= results_path +'Metrics/' + algo_name + '/'
@@ -270,7 +274,7 @@ class Experiment:
         df.to_csv(metrics_path+file_name+'.csv')
         
 
-    def run_experiment(self,dataset_path,generator_params=None,backup_path = None,batch_size=10,logs_path = None,verbose = True,n_ts=100)->np.ndarray:
+    def run_experiment(self,dataset_path,generator_params=None,results_path=None,backup_path = None,batch_size=10,logs_path = None,verbose = True,n_ts=100)->np.ndarray:
         """_summary_
 
         Args:
@@ -285,6 +289,11 @@ class Experiment:
             pd.DataFrame: scores_df
         """
         self.logs_path_ = logs_path
+        if results_path is None:
+            self.results_path= self.dataset_path + 'Results/'
+        else:
+            self.results_path = results_path
+
 
         if generator_params is None:
             self.dataset,self.labels,self.names,self.configs= self.get_dataset_from_path(dataset_path)

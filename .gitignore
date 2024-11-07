@@ -1,0 +1,13 @@
+#
+*.DS_Store
+*__pycache__
+results/RQ1
+results/RQ2
+results/RQ3
+results/RQ4
+results/RQ5
+results/RQ6
+results/RQ7
+results/RQ8
+data/processed_data
+

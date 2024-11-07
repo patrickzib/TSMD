@@ -16,16 +16,7 @@ Motif Discovery consists of identifying repeated patterns and locating their occ
 
 We provide below some important guidlines to use our datasets or implemented algorithms.
 
-### Downloading the datasets
-
-First, due to limitations in the upload size on GitHub, we host the datasets at a different location. Please download the datasets using the following links:
-
-- Real time series Collection: TBD
-
-
 ## Time series Datasets for Motif Discovery
-
-## Real labeled time series datasets
 
 First, due to limitations in the upload size on GitHub, we host the datasets at a different location. Please download the datasets using the following links:
 - Real time series Collection: TBD

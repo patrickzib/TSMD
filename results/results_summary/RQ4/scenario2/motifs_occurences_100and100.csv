@@ -1,0 +1,9 @@
+,metrics,MatrixProfile,PanMatrixProfile,LocoMotif,LatentMotif,MDL,Motiflets,BasePersistentPattern,Valmod,Baseline,AdaptativeBasePersistentPattern,Grammarviz
+0,es_fscore_05_mean,0.893,0.893,0.407,0.288,0.325,0,0.255,0.971,0.193,0.433,0.461
+1,es_fscore_05_std,0.186,0.186,0.139,0.227,0.053,0,0.222,0.123,0.119,0.277,0.215
+2,es_precision_05_mean,0.889,0.89,0.426,0.319,0.605,0,0.197,0.975,0.148,0.368,0.78
+3,es_precision_05_std,0.177,0.177,0.137,0.242,0.227,0,0.213,0.109,0.091,0.267,0.258
+4,es_recall_05_mean,0.912,0.912,0.449,0.295,0.239,0,0.483,0.969,0.277,0.63,0.355
+5,es_recall_05_std,0.186,0.186,0.15,0.242,0.041,0,0.177,0.128,0.17,0.221,0.198
+6,execution_time_mean,10.918,11.015,203.708,5.119,55.038,0,33.646,69.244,398.563,33.539,0.607
+7,execution_time_std,0.554,0.575,7.51,0.278,14.187,0,1.991,1.996,32.832,2.072,0.02

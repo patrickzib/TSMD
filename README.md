@@ -19,7 +19,7 @@ We provide below some important guidlines to use our datasets or implemented alg
 ## Time series Datasets for Motif Discovery
 
 First, due to limitations in the upload size on GitHub, we host the datasets at a different location. Please download the datasets using the following links:
-- Real time series Collection: TBD
+- Real time series Collection: https://kiwi.cmla.ens-cachan.fr/index.php/s/5Spg8BqxXssE2Fp
 
 Overall, our benchmark consider both real time series collection and a synthetic generator to evaluate specific parameters and characteristics. In total, we have the following datasets:
 
@@ -140,3 +140,17 @@ More specifically, the method utilizes the MDL principle to form clusters. In ea
 ### LoCoMotif 
 
 The LoCoMotif method addresses the challenge of variable length by searching for time-warped motifs at potentially different time scales within a time series. The process begins with the LoCo step, where the Self-Similarity Matrix of the time series is utilized to construct paths based on a principle similar to Dynamic Time Warping (DTW). The paths with the highest accumulated similarity in this matrix are identified. In the second step, these subpaths are grouped to create candidate Motifs. The method then assesses the encoding capacity of these candidates using a quality score that combines the similarity between occurrences with the overall coverage of the Motif set.
+
+## Results 
+
+A summary of the results can be found in the results/results_summary folder. The notebook read_results.ipynb can be used to read the results in order to obtain the various figures presented in the article, as well as some additional figures. 
+Detailed results for each Research Question can be downloaded from the following links:
+
+-RQ1: https://kiwi.cmla.ens-cachan.fr/index.php/s/c8bmXRYNT8XXcYR
+-RQ2: https://kiwi.cmla.ens-cachan.fr/index.php/s/48BPg5Xb2tFk2gr
+-RQ3: https://kiwi.cmla.ens-cachan.fr/index.php/s/WeKnLTQzD5pQzSo
+-RQ4: https://kiwi.cmla.ens-cachan.fr/index.php/s/XJpcosQkPEanbsk
+-RQ5: https://kiwi.cmla.ens-cachan.fr/index.php/s/3oDWRJR9osxPxWJ
+-RQ6: https://kiwi.cmla.ens-cachan.fr/index.php/s/TwtqXnx2xTPgQFF
+-RQ7: https://kiwi.cmla.ens-cachan.fr/index.php/s/E2gZTxQKkdwqL8E
+-RQ8: https://kiwi.cmla.ens-cachan.fr/index.php/s/MqowMr5fgwcDkey

@@ -146,11 +146,11 @@ The LoCoMotif method addresses the challenge of variable length by searching for
 A summary of the results can be found in the results/results_summary folder. The notebook read_results.ipynb can be used to read the results in order to obtain the various figures presented in the article, as well as some additional figures. 
 Detailed results for each Research Question can be downloaded from the following links:
 
--RQ1: https://kiwi.cmla.ens-cachan.fr/index.php/s/c8bmXRYNT8XXcYR
--RQ2: https://kiwi.cmla.ens-cachan.fr/index.php/s/48BPg5Xb2tFk2gr
--RQ3: https://kiwi.cmla.ens-cachan.fr/index.php/s/WeKnLTQzD5pQzSo
--RQ4: https://kiwi.cmla.ens-cachan.fr/index.php/s/XJpcosQkPEanbsk
--RQ5: https://kiwi.cmla.ens-cachan.fr/index.php/s/3oDWRJR9osxPxWJ
--RQ6: https://kiwi.cmla.ens-cachan.fr/index.php/s/TwtqXnx2xTPgQFF
--RQ7: https://kiwi.cmla.ens-cachan.fr/index.php/s/E2gZTxQKkdwqL8E
--RQ8: https://kiwi.cmla.ens-cachan.fr/index.php/s/MqowMr5fgwcDkey
+- RQ1: https://kiwi.cmla.ens-cachan.fr/index.php/s/c8bmXRYNT8XXcYR
+- RQ2: https://kiwi.cmla.ens-cachan.fr/index.php/s/48BPg5Xb2tFk2gr
+- RQ3: https://kiwi.cmla.ens-cachan.fr/index.php/s/WeKnLTQzD5pQzSo
+- RQ4: https://kiwi.cmla.ens-cachan.fr/index.php/s/XJpcosQkPEanbsk
+- RQ5: https://kiwi.cmla.ens-cachan.fr/index.php/s/3oDWRJR9osxPxWJ
+- RQ6: https://kiwi.cmla.ens-cachan.fr/index.php/s/TwtqXnx2xTPgQFF
+- RQ7: https://kiwi.cmla.ens-cachan.fr/index.php/s/E2gZTxQKkdwqL8E
+- RQ8: https://kiwi.cmla.ens-cachan.fr/index.php/s/MqowMr5fgwcDkey

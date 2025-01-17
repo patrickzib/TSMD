@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #settings for the plots
-methods_dict={'MatrixProfile': 'STOMP', 'PanMatrixProfile':'PanMP', 'LatentMotif':'LatentMotif','MDL':'MDLEDM','Motiflets':'Motiflets','BasePersistentPattern':'PEPA','Valmod':'Valmod','Baseline':'SetFinder','AdaptativeBasePersistentPattern':'A-PEPA','Grammarviz':'Grammarviz','LocoMotif':'LoCoMotif'}
+methods_dict={'MatrixProfile': 'STOMP', 'PanMatrixProfile':'PanMP', 'LatentMotif':'LatentMotif','MDL':'MDL-Clust','Motiflets':'Motiflets','BasePersistentPattern':'PEPA','Valmod':'Valmod','Baseline':'SetFinder','AdaptativeBasePersistentPattern':'A-PEPA','Grammarviz':'Grammarviz','LocoMotif':'LoCoMotif'}
 color_palette={'MatrixProfile':'darkviolet','PanMatrixProfile':'mediumorchid','LocoMotif':'lightskyblue','LatentMotif':'darkorange','MDL':'cornflowerblue','Motiflets':'crimson','BasePersistentPattern':'deeppink','Valmod':'violet','Baseline':'orange','AdaptativeBasePersistentPattern':'hotpink','Grammarviz':'royalblue'}
 marker_dict={'MatrixProfile':'H','PanMatrixProfile':'h','LocoMotif':'D','LatentMotif':'P','MDL':'^','Motiflets':'x','BasePersistentPattern':'s','Valmod':'p','Baseline':'+','AdaptativeBasePersistentPattern':'s','Grammarviz':'v'}
 size_dict={'MatrixProfile':10,'PanMatrixProfile':10,'LocoMotif':10,'LatentMotif':17,'MDL':10,'Motiflets':20,'BasePersistentPattern':10,'Valmod':10,'Baseline':23,'AdaptativeBasePersistentPattern':10,'Grammarviz':10}

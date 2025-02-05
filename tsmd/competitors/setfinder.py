@@ -1,6 +1,6 @@
 import numpy as np
 from joblib import Parallel,delayed
-import tsmd.tools.distance as distance
+import distance as distance
 import itertools as it 
 
 
@@ -41,33 +41,30 @@ class Baseline(object):
         #initilization
         neighbors = []
         dists = []
-        idxs = np.arange(self.mdim_)
-        remove_idx = np.arange(max(0,idx-self.wlen+1),min(self.mdim_,idx+self.wlen))
-        idxs = np.delete(idxs,remove_idx)
-        line = np.delete(line,remove_idx)
+        idxs = np.arange(line.shape[0])
+        remove_idx = np.arange(max(0,idx-self.wlen+1),min(line.shape[0],idx+self.wlen))
+        line[remove_idx] = np.inf
+        #idxs = np.delete(idxs,remove_idx)
+        #line = np.delete(line,remove_idx)
 
         #search loop
         t_distance = np.min(line)
         while t_distance < self.radius:
-            try: 
-                #local next neighbor
-                t_idx = np.argmin(line)
-                if line[t_idx] == np.inf:
-                    break
+            #local next neighbor
+            t_idx = np.argmin(line)
+            t_distance = line[t_idx]
+            if line[t_idx] < self.radius:
                 neighbors.append(idxs[t_idx])
                 dists.append(line[t_idx])
-
                 #remove window
                 remove_idx = np.arange(max(0,t_idx-self.wlen+1),min(len(line),t_idx+self.wlen))
-                idxs = np.delete(idxs,remove_idx)
-                line = np.delete(line,remove_idx)
+                line[remove_idx] = np.inf
+                #idxs = np.delete(idxs,remove_idx)
+                #line = np.delete(line,remove_idx)
 
-                t_distance = dists[-1]
-            except: 
-                break
             
         return neighbors,dists
-
+    
     def _elementary_neighborhood(self,start:int,end:int)->tuple:
         """Find elementary neighborhood of a chunk of successive lines of the crossdistance matrix
 

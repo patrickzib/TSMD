@@ -165,23 +165,22 @@ class LatentMotif(object):
         dist = np.sum((self.set_[:,np.newaxis,:] - self.patterns_[np.newaxis,...])**2,axis=2)
         idx_lsts = []
         for line in dist.T: 
-            idxs = np.arange(self.set_size_-self.wlen+1)
+            idxs = np.arange(line.shape[0])
             idx_lst = []
             t_distance = np.min(line)
             while t_distance < self.radius:
-                try: 
+                #try: 
                     #local next neighbor
-                    t_idx = np.argmin(line)
+                t_idx = np.argmin(line)
+                t_distance = line[t_idx]
+                if line[t_idx] < self.radius:
                     idx_lst.append(idxs[t_idx])
-                    t_distance = line[t_idx]
-
                     #remove window
                     remove_idx = np.arange(max(0,t_idx-self.wlen+1),min(len(line),t_idx+self.wlen))
-                    idxs = np.delete(idxs,remove_idx)
-                    line = np.delete(line,remove_idx)
+                    line[remove_idx]=np.inf
 
-                except: 
-                    break
+                #except: 
+                    #break
             idx_lsts.append(idx_lst)
 
         mask = np.zeros((self.n_patterns,self.signal_.shape[0]))

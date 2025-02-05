@@ -1,6 +1,6 @@
 import numpy as np
 from joblib import Parallel,delayed
-import tsmd.tools.distance as distance
+import distance as distance
 from functools import partial
 
 
@@ -45,34 +45,30 @@ class PanMatrixProfile(object):
         #initilization
         neighbors = []
         dists = []
-        idxs = np.arange(self.mdims_[wlen_idx])
-        remove_idx = np.arange(max(0,seed_idx-self.wlens_[wlen_idx]+1),min(self.mdims_[wlen_idx],seed_idx+self.wlens_[wlen_idx]))
-        idxs = np.delete(idxs,remove_idx)
-        line = np.delete(line,remove_idx)
+        idxs = np.arange(line.shape[0])
+        remove_idx = np.arange(max(0,seed_idx-self.wlens_[wlen_idx]+1),min(line.shape[0],seed_idx+self.wlens_[wlen_idx]))
+        line[remove_idx]=np.inf
+        #idxs = np.delete(idxs,remove_idx)
+        #line = np.delete(line,remove_idx)
 
         #search loop
         radius = np.min(line)*self.radius_ratio
         t_distance = np.min(line)
         while t_distance < radius:
-            try: 
-                #local next neighbor
-                t_idx = np.argmin(line)
-                if line[t_idx] == np.inf:
-                    break
+            #local next neighbor
+            t_idx = np.argmin(line)
+            t_distance = line[t_idx]
+            if line[t_idx] < radius:
                 neighbors.append(idxs[t_idx])
                 dists.append(line[t_idx])
-
                 #remove window
                 remove_idx = np.arange(max(0,t_idx-self.wlens_[wlen_idx]+1),min(len(line),t_idx+self.wlens_[wlen_idx]))
-                idxs = np.delete(idxs,remove_idx)
-                line = np.delete(line,remove_idx)
-
-                t_distance = dists[-1]
-            except: 
-                break
+                line[remove_idx] = np.inf
+                #idxs = np.delete(idxs,remove_idx)
+                #line = np.delete(line,remove_idx)
             
         return neighbors,dists
-
+    
     def _elementary_profile(self,idx:int,start:int,end:int)->tuple:
         """Find elementary profile of a chunk of successive lines of the crossdistance matrix
 

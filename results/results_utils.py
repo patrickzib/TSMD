@@ -10,24 +10,26 @@ methods_dict={'MatrixProfile': 'STOMP', 'PanMatrixProfile':'PanMP', 'LatentMotif
 color_palette={'MatrixProfile':'darkviolet','PanMatrixProfile':'mediumorchid','LocoMotif':'lightskyblue','LatentMotif':'darkorange','MDL':'cornflowerblue','Motiflets':'crimson','BasePersistentPattern':'deeppink','Valmod':'violet','Baseline':'orange','AdaptativeBasePersistentPattern':'hotpink','Grammarviz':'royalblue'}
 marker_dict={'MatrixProfile':'H','PanMatrixProfile':'h','LocoMotif':'D','LatentMotif':'P','MDL':'^','Motiflets':'x','BasePersistentPattern':'s','Valmod':'p','Baseline':'+','AdaptativeBasePersistentPattern':'s','Grammarviz':'v'}
 size_dict={'MatrixProfile':10,'PanMatrixProfile':10,'LocoMotif':10,'LatentMotif':17,'MDL':10,'Motiflets':20,'BasePersistentPattern':10,'Valmod':10,'Baseline':23,'AdaptativeBasePersistentPattern':10,'Grammarviz':10}
-metrics_dict={'es_fscore_05_mean' : 'Accuracy (fscore) average','es_fscore_05_std' : 'Accuracy (fscore) standard deviation ','es_precision_05_mean' : 'Accuracy (precision) average','es_precision_05_std' : 'Accuracy (precision) standard deviation','es_recall_05_mean' : 'Accuracy (recall) average','es_recall_05_std' : 'Accuracy (recall) standard deviation',  'execution_time_mean':'execution time average ','execution_time_std':'execution time standard deviation'}
+metrics_dict={'es_fscore_0.5_mean' : 'Accuracy (fscore) average','es_fscore_0.5_std' : 'Accuracy (fscore) standard deviation ','es_precision_0.5_mean' : 'Accuracy (precision) average','es_precision_0.5_std' : 'Accuracy (precision) standard deviation','es_recall_0.5_mean' : 'Accuracy (recall) average','es_recall_0.5_std' : 'Accuracy (recall) standard deviation',  'execution_time_mean':'execution time average ','execution_time_std':'execution time standard deviation',
+              'es_fscore_0.25_mean' : 'Accuracy (fscore) average','es_fscore_0.25_std' : 'Accuracy (fscore) standard deviation ','es_precision_0.25_mean' : 'Accuracy (precision) average','es_precision_0.25_std' : 'Accuracy (precision) standard deviation','es_recall_0.25_mean' : 'Accuracy (recall) average','es_recall_0.25_std' : 'Accuracy (recall) standard deviation',
+              'es_fscore_0.75_mean' : 'Accuracy (fscore) average','es_fscore_0.75_std' : 'Accuracy (fscore) standard deviation ','es_precision_0.75_mean' : 'Accuracy (precision) average','es_precision_0.75_std' : 'Accuracy (precision) standard deviation','es_recall_0.75_mean' : 'Accuracy (recall) average','es_recall_0.75_std' : 'Accuracy (recall) standard deviation'}
 
-def extract_scores(results_path,algo):
+def extract_scores(results_path,algo,alpha=0.5):
     
     infos_path=results_path+'/Infos/'+str(algo)
     metrics_path=results_path+'/Metrics/'+str(algo)
 
-    es_precision_05_list=[]
-    es_recall_05_list=[]
-    es_fscore_05_list=[]
+    es_precision_list=[]
+    es_recall_list=[]
+    es_fscore_list=[]
 
     metrics_files=sorted(os.listdir(metrics_path))
     
     for file in metrics_files:
         df = pd.read_csv(metrics_path+'/'+file)
-        es_precision_05_list.append(df.loc[df['metric']=='es-precision_0.5','score'].iloc[0])
-        es_recall_05_list.append(df.loc[df['metric']=='es-recall_0.5','score'].iloc[0])
-        es_fscore_05_list.append(df.loc[df['metric']=='es-fscore_0.5','score'].iloc[0])
+        es_precision_list.append(df.loc[df['metric']=='es-precision_'+str(alpha),'score'].iloc[0])
+        es_recall_list.append(df.loc[df['metric']=='es-recall_'+str(alpha),'score'].iloc[0])
+        es_fscore_list.append(df.loc[df['metric']=='es-fscore_'+str(alpha),'score'].iloc[0])
     
     execution_times=[]
     infos_files=sorted(os.listdir(infos_path))
@@ -38,20 +40,20 @@ def extract_scores(results_path,algo):
             infos=json.load(infos_file)
             execution_times.append(infos['execution_time'])
 
-    return es_precision_05_list,es_recall_05_list,es_fscore_05_list,execution_times
+    return es_precision_list,es_recall_list,es_fscore_list,execution_times
 
-def build_results_csv(general_path,write_results_path,dataset_list,algos_list):
+def build_results_csv(general_path,write_results_path,dataset_list,algos_list,alpha=0.5):
     for dataset in dataset_list:
         df=pd.DataFrame()
-        df['metrics']=['es_fscore_05_mean','es_fscore_05_std','es_precision_05_mean','es_precision_05_std','es_recall_05_mean','es_recall_05_std','execution_time_mean','execution_time_std']
+        df['metrics']=['es_fscore_'+str(alpha)+'_mean','es_fscore_'+str(alpha)+'_std','es_precision_'+str(alpha)+'_mean','es_precision_'+str(alpha)+'_std','es_recall_'+str(alpha)+'_mean','es_recall_'+str(alpha)+'_std','execution_time_mean','execution_time_std']
         dataset_path=general_path+dataset+'/'
         #algos_list=[algo for algo in os.listdir(dataset_path+'Results/Metrics') if algo != '.DS_Store']
         for algo in algos_list:
             try:
-                es_precision_05_list,es_recall_05_list,es_fscore_05_list,execution_times=extract_scores(dataset_path,algo)
-                metrics_list=[round(np.mean(es_fscore_05_list),3),round(np.std(es_fscore_05_list),3),
-                            round(np.mean(es_precision_05_list),3),round(np.std(es_precision_05_list),3)
-                            ,round(np.mean(es_recall_05_list),3),round(np.std(es_recall_05_list),3),
+                es_precision_list,es_recall_list,es_fscore_list,execution_times=extract_scores(dataset_path,algo,alpha)
+                metrics_list=[round(np.mean(es_fscore_list),3),round(np.std(es_fscore_list),3),
+                            round(np.mean(es_precision_list),3),round(np.std(es_precision_list),3)
+                            ,round(np.mean(es_recall_list),3),round(np.std(es_recall_list),3),
                             round(np.mean(execution_times),3),round(np.std(execution_times),3)]
             except:
                 metrics_list=[0]*8
@@ -59,15 +61,15 @@ def build_results_csv(general_path,write_results_path,dataset_list,algos_list):
         if not os.path.exists(write_results_path):
             os.makedirs(write_results_path)
         #dataset_=dataset.replace('/','_')
-        df.to_csv(write_results_path+ dataset+'.csv')
+        df.to_csv(write_results_path+ dataset+'_'+str(alpha)+'.csv')
     return df
 
 
-def get_results_by_param_by_algo(path,param_list,param_name):
+def get_results_by_param_by_algo(path,param_list,param_name,alpha=0.5):
     results_dict={}
     #initialization of the dictionnary with the first element of the parameter list 
     param=param_list[0]
-    file_name=path+param_name +'_'+str(param)+'.csv'
+    file_name=path+param_name +'_'+str(param)+'_'+str(alpha)+'.csv'
     df=pd.read_csv(file_name,index_col=False)
     columns=[column for column in df if column!='metrics'and column!='Unnamed: 0']
     for column in columns:
@@ -75,7 +77,7 @@ def get_results_by_param_by_algo(path,param_list,param_name):
             results_dict[column+'_'+metric]=[df.loc[df['metrics'] == metric, column].iloc[0]]
 
     for param in param_list[1:]:
-        file_name=path+param_name +'_'+str(param)+'.csv'
+        file_name=path+param_name +'_'+str(param)+'_'+str(alpha)+'.csv'
         df=pd.read_csv(file_name,index_col=False)
         for column in columns:
             for metric in df['metrics']:
@@ -83,30 +85,42 @@ def get_results_by_param_by_algo(path,param_list,param_name):
     return results_dict, df['metrics'] 
 
 
-def plot_results_by_param_by_algo(results_dict,param_list,xlabel,metrics):
-    for metric in metrics:
+def plot_results_by_param_by_algo(results_dict, param_list, xlabel, metrics,alpha=0.5):
+    fig, axes = plt.subplots(len(metrics), 1, figsize=(8, 5 * len(metrics)))
+    fig.suptitle("Results for alpha="+str(alpha), fontsize=16, y=0.95)
+    
+    if len(metrics) == 1:
+        axes = [axes]  # S'assurer que axes est toujours une liste
+    
+    for ax, metric in zip(axes, metrics):
         for key in results_dict.keys():
             if metric in key:
-                algo=key.split('_'+metric)[0]
-                plt.plot(param_list,results_dict[key],label=methods_dict[algo],color=color_palette[algo],marker=marker_dict[algo],markersize=size_dict[algo]/1.7)
-        if metric=='execution_time_mean':
-            plt.yscale('log')
-            plt.xscale('log')
-        plt.ylabel(metrics_dict[metric])
-        plt.xlabel(xlabel)
-        plt.legend(loc='upper center',ncol=4,bbox_to_anchor=(0.47,1.22))
+                algo = key.split('_' + metric)[0]
+                ax.plot(param_list, results_dict[key], label=methods_dict[algo],
+                        color=color_palette[algo], marker=marker_dict[algo],
+                        markersize=size_dict[algo] / 1.7)
+        
+        if metric == 'execution_time_mean':
+            ax.set_yscale('log')
+            ax.set_xscale('log')
+        
+        ax.set_ylabel(metrics_dict[metric])
+        ax.set_xlabel(xlabel)
+        ax.legend(loc='upper center', ncol=4, bbox_to_anchor=(0.5, 1.2))
+    
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
+    plt.show()
 
-        plt.show()
     
 import matplotlib.pyplot as plt
 import numpy as np
 
-def get_results_2d(path,param_list,param_name):
+def get_results_2d(path,param_list,param_name,alpha=0.5):
     n=len(param_list)
     results_dict={}
     #initialization of the dictionnary with the first element
     param1,param2=param_list[0],param_list[0]
-    file_name=path+param_name+'_'+str(param1)+'and'+str(param2)+'.csv'
+    file_name=path+param_name+'_'+str(param1)+'and'+str(param2)+'_'+str(alpha)+'.csv'
     df=pd.read_csv(file_name,index_col=False)
     columns=[column for column in df if column!='metrics'and column!='Unnamed: 0']
     for column in columns:
@@ -117,7 +131,7 @@ def get_results_2d(path,param_list,param_name):
     for i,param1 in enumerate(param_list):
         for j,param2 in enumerate(param_list):
             if param1<=param2 and (param1!=param_list[0] or param2!=param_list[0]):
-                file_name=path+param_name+'_'+str(param1)+'and'+str(param2)+'.csv'
+                file_name=path+param_name+'_'+str(param1)+'and'+str(param2)+'_'+str(alpha)+'.csv'
                 df=pd.read_csv(file_name,index_col=False)
                 for column in columns:
                     for metric in df['metrics']:
@@ -191,10 +205,10 @@ def build_exec_time_csv(general_path,dataset_list,algos_list):
         df.to_csv(results_path+ dataset_+'.csv')
     return df
 
-def get_results_fixed_motifs_var_length_by_algo(path,exact_ts_length_list):
+def get_results_fixed_motifs_var_length_by_algo(path,exact_ts_length_list,alpha=0.5):
     results_dict={}
     exact_ts_length=exact_ts_length_list[0]
-    file_name=path+'exact_ts_length_'+str(exact_ts_length)+'.csv'
+    file_name=path+'exact_ts_length_'+str(exact_ts_length)+'_'+str(alpha)+'.csv'
     df=pd.read_csv(file_name,index_col=False)
     columns=[column for column in df if column!='metrics'and column!='Unnamed: 0']
     for column in columns:
@@ -202,7 +216,7 @@ def get_results_fixed_motifs_var_length_by_algo(path,exact_ts_length_list):
             results_dict[column+'_'+metric]=[df.loc[df['metrics'] == metric, column].iloc[0]]
 
     for exact_ts_length in exact_ts_length_list[1:]:
-        file_name=path+'exact_ts_length_'+str(exact_ts_length)+'.csv'
+        file_name=path+'exact_ts_length_'+str(exact_ts_length)+'_'+str(alpha)+'.csv'
         df=pd.read_csv(file_name,index_col=False)
         for column in columns:
             for metric in df['metrics']:

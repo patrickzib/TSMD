@@ -19,7 +19,7 @@ We provide below some important guidlines to use our datasets or implemented alg
 ## Time series Datasets for Motif Discovery
 
 First, due to limitations in the upload size on GitHub, we host the datasets at a different location. Please download the datasets using the following links:
-- Real time series Collection: https://kiwi.cmla.ens-cachan.fr/index.php/s/5Spg8BqxXssE2Fp
+- Real time series Collection: https://kiwi.cmla.ens-cachan.fr/index.php/s/MwbqcKBdp2ZGzTx
 
 Overall, our benchmark consider both real time series collection and a synthetic generator to evaluate specific parameters and characteristics. In total, we have the following datasets:
 

@@ -18,35 +18,21 @@ More recently, several Motif Discovery methods [Schäfer et al. 2022] were intro
 
 Although there exist methods to solve Motif Discovery on symbolic or multivariate time series, most of the methods in the literature address univariate real-valued case, and in what follows, we only discuss this case. We now introduce fundamental definitions to assess the technical differences between the problem formulations and the proposed algorithms.
 
-
-> ---
 > **Univariate real-valued time series:** An univariate real-valued time series of length $n$ is a time-ordered sequence $S=[s_1,\dots,s_n]$ of $n$ coefficients in $\mathbb{R}$.
-> 
-> ---
 
 In the following, we refer to univariate real-valued time series and time series without distinction.  We first start by defining formally the concept of subsequence:
 
-> ---
 > **Subsequence:** The subsequence of a time series $S \in \mathbb{R}^n$ of length $\ell$ and starting at index $i \in [1, \dots, n - \ell + 1]$ is the sequence $S_{i,\ell}= [s_i, \dots , s_{i+\ell-1}]$.
-> 
-> ---
 
 ![ Illustration of match, and overlapping subsequences](../../assets/definitions.png " Illustration of match, and overlapping subsequences")
 
 For example, $S_{i,l}$, $S_{j,l}$ and $S_{q,l}$ illustrated in the Figure above are subsequences of $S$. We now define the concept of matching subsequences: 
 
-> ---
 > **Match:** Given a threshold $R > 0$, the subsequences $S_{i,\ell}$ and $S_{j,\ell}$ of a time series $S \in \mathbb{R}^n$ are matching if and only if $\text{d}(S_{i,\ell}, S_{j,\ell}) < R$.
-> 
-> ---
-
 
 For example, $S_{i,l}$ and $S_{q,l}$ in green in the Figure above are matching. However, a difficulty encountered in the Motif Discovery task is the following: for almost every subsequence of a time series $S$, the best match will be the subsequence just before or after the one considered. The notion of overlapping subsequences was introduced to cope with this limitation, and formally defined as follows:
 
-> ---
 > **Overlapping subsequences:** Two subsequences $(S_{i,\ell}, S_{j,\ell'} )$ of a time series $S \in \mathbb{R}^n$ with $i < j$ overlap if $j \leq i + l$. 
-> 
-> ---
 
 In the Figure above, $S_{i,l}$ and $S_{j,l}$ (in green and orange) are overlapping subsequences. Based on these definitions, we can now examine the formal problems of Motif Discovery introduced in the literature.
 

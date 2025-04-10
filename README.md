@@ -1,6 +1,12 @@
+<p align="center">
+<img width="200" src="./assets/TSMD.png"/>
+</p>
 <h1 align="center">TSMD</h1>
 <h2 align="center">Time Series Motif Discovery</h2>
-<p>
+
+<p align="center">
+<img alt="License" src="https://img.shields.io/github/license/grrvlr/TSMD"> <img alt="GitHub issues" src="https://img.shields.io/github/issues/grrvlr/TSMD"> <img alt="ReadTheDocs Status" src="https://readthedocs.org/projects/tsmd/badge/?version=latest"> 
+</p>
 
 Motif Discovery consists of identifying repeated patterns and locating their occurrences in a time series without prior knowledge about their shape or location. In practice motif discovery faces several data-related challenges which has lead to numerous definition of the motif discovery problem and algorithms partially encompassing these challenges. In this repo, we provide an exhaustive review of the literature in terms of data-related challenges, motif definitions, and algorithms. We also present an analysis of strengths and weaknesses of algorithms carefully chosen to best represent the litterature spectrum. The analysis follows research questions we identified from our review. Our experimental results provide practical guidelines for selecting motif discovery algorithms suitable for the task at hand and open to new research directions. Overall, we provide implementation of the main motif discovery methods proposed in the litterature, and the experimental scripts to compare them in terms of accuracy and execution time.
 

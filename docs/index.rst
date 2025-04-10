@@ -40,14 +40,14 @@ Clone this `repository <https://github.com/grrvlr/TSMD.git>`_ using git and go i
    git clone https://github.com/grrvlr/TSMD.git
    cd TSMD/
 
-Create and activate a conda-environment 'TSB'.
+Create and activate a conda-environment 'TSMD'.
 
 .. code-block:: bash
 
    conda env create --file environment.yml
    conda activate TSMD
 
-You can then install TSB-UAD with pip.
+You can then install TSMD with pip.
 
 .. code-block:: bash
 

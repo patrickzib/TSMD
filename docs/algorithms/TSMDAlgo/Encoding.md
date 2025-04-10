@@ -1,3 +1,5 @@
+# Encoding-based Algorithms in TSMD
+
 ## Grammarviz 
 
 Grammarviz [Senin et al. 2018] uses grammar induction methods for motif detection. In practice, the time series is discretized using SAX, and grammar induction techniques, such as Sequitur or RE-PAIR, are applied to the discretized series to identify grammar rules. The most frequent and representative grammar rules are selected, and occurrences of the various motifs are then extracted.

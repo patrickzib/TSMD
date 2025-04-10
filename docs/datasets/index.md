@@ -2,7 +2,7 @@
 
 ## Download the datasets
 
-You can download the datasets here: https://kiwi.cmla.ens-cachan.fr/index.php/s/MwbqcKBdp2ZGzTx
+You can download the datasets [here](https://kiwi.cmla.ens-cachan.fr/index.php/s/MwbqcKBdp2ZGzTx).
 
 ## Datasets statistics
 

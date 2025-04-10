@@ -2,6 +2,8 @@
 
 Beyond the different problem formulations, the literature is structured around several practical challenges faced when applying methods to real-world data. In theory, the proposed methods have addressed these challenges in different ways. However, there has never been a comprehensive study comparing the methods in terms of their practical effectiveness in addressing these challenges. Below, we list the most important Motif Discovery challenges relevant to real-world applications and some hints on how they have been dealt with in theory. 
 
+## Practical Challenges
+
 ![Challenges](../../assets/Challenges.png " Illustrations of Motif Discovery practical challenges withreal datasets example")
 
 ### Challenge 1: *Performances on real data* 

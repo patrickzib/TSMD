@@ -4,5 +4,5 @@
 :maxdepth: 2
 
 Introduction
-ProblemDef
+Motif-Discovery
 Challenges

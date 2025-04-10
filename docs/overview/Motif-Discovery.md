@@ -25,7 +25,7 @@ Attesting to the challenging nature of the problem, we observe several definitio
 > Given a time series $S$, cardinality $k \in \mathbb{N}$ and length $\ell$, the top k-Motiflet of $S$ is the set $\mathcal{M}$ with $|\mathcal{M}|=k$ subsequences of $S$ of length $\ell$ with minimal extent. Where the extent of a set $\mathcal{M}$ is the maximal pairwise distance between subsequences of $\mathcal{M}$.
 
 
-We could complete this list with many variants of the examples above ($K-Motif$(n,R,d)$, *k-ball*, *Latent Motif*, *Uniform Scaling Motif*). This vast list of problem definitions shows the ambiguity of Motif Discovery and the difficulty of providing a unique benchmark. 
+We could complete this list with many variants of the examples above (*K-Motif*$(n,R,d)$, *k-ball*, *Latent Motif*, *Uniform Scaling Motif*). This vast list of problem definitions shows the ambiguity of Motif Discovery and the difficulty of providing a unique benchmark. 
 However, we can distinguish between two prominent families of problems, classified according to the nature of the object returned by the methods. The first abstract problem formulation is as follows:
 
 ## (Problem 1) Pair Motif Discovery:

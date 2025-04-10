@@ -8,7 +8,7 @@ You can download the datasets [here](https://kiwi.cmla.ens-cachan.fr/index.php/s
 
 Overall, our benchmark considers both real time series collection and a synthetic generator to evaluate specific parameters and characteristics. In total, we have the following datasets: 
 
-| Dataset                 | # TS | TS len. | # motifs | # motifs per TS  | ratio motif | avg. Motif len. | intra Motif len. (std) | Inter M.otif len.(std) |
+| Dataset                 | # TS | TS len. | # motifs | # motifs per TS  | ratio motif | avg. Motif len. | intra Motif len. (std) | inter Motif len.(std) |
 |-------------------------|------|---------|----------|------------------|-------------|-----------------|------------------------|------------------------|
 | arm-CODA                | 64   | 8,050   | 7        | 5                | 0.65        | 520             | 22                     | 88         |
 | mitdb                   | 100  | 20,000  | 10       | 1.6              | 0.99        | 281             | 36                     | 10         |

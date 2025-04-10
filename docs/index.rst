@@ -1,1 +1,105 @@
+.. TSMD documentation master file, created by
+   sphinx-quickstart
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
 
+Welcome to TSMD's documentation!
+===================================
+
+.. toctree::
+   :maxdepth: 1
+   :hidden:
+
+   overview/index
+   algorithms/index
+   datasets/index
+   evaluation/index
+   
+
+
+Overview
+--------
+
+The TSMD project brings together Motif Discovery methods for Time Series, aiming to compare their performance through well-defined research questions and to simplify their practical use. It provides both guidelines for selecting the most suitable methods based on the data, and accessible implementations of the most relevant approaches.
+
+Installation
+^^^^^^^^^^^^
+
+Quick start:
+
+The following tools are required to install TSMD from source:
+
+- git
+- conda (anaconda or miniconda)
+
+
+Clone this `repository <https://github.com/grrvlr/TSMD.git>`_ using git and go into its root directory.
+
+.. code-block:: bash
+
+   git clone https://github.com/grrvlr/TSMD.git
+   cd TSMD/
+
+Create and activate a conda-environment 'TSB'.
+
+.. code-block:: bash
+
+   conda env create --file environment.yml
+   conda activate TSMD
+
+You can then install TSB-UAD with pip.
+
+.. code-block:: bash
+
+   pip install tsmd
+
+Usage
+^^^^^
+
+We depicts below a code snippet demonstrating how to use one motif detection algorithm (in this example, TODO).
+
+.. code-block:: python
+
+   import os
+   import numpy as np
+   
+   TODO
+
+.. code-block:: bash
+
+   TODO
+
+
+License
+^^^^^^^
+
+The project is licensed under the `MIT license <https://mit-license.org>`_.
+
+If you use TSMD in your project or research, please cite the following paper:
+
+   Time Series Motif Discovery: A Comprehensive Evaluation
+   Valerio Guerrini, Thibaut Germain, Charles Truong, Laurent Oudre, Paul Boniol.
+   Proceedings of the VLDB Endowment (PVLDB 2025) Journal, Volume 18.
+
+You can use the following BibTeX entries:
+
+.. code-block:: bibtex
+
+   @article{Guerrini2025tsmd,
+      title={Time Series Motif Discovery: A Comprehensive Evaluation},
+      author={Guerrini, Valerio and Germain, Thibaut and Truong, Charles and Oudre, Laurent and Boniol, Paul},
+      journal={Proceedings of the VLDB Endowment},
+      volume={18},
+      number={7},
+      year={2025},
+      publisher={VLDB Endowment}
+   }
+
+Contributors
+^^^^^^^^^^^^
+
+- Valerio Guerrini (Centre Borelli, ENS Paris Saclay, Université Paris Cité)
+- Thibaut Germain (Centre Borelli, ENS Paris Saclay, Université Paris Cité)
+- Charles Truong (Centre Borelli, ENS Paris Saclay, Université Paris Cité)
+- Laurent Oudre (Centre Borelli, ENS Paris Saclay, Université Paris Cité)
+- Paul Boniol (Inria, ENS, CNRS, PLS University)

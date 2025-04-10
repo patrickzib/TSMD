@@ -8,7 +8,7 @@
 <img alt="License" src="https://img.shields.io/github/license/grrvlr/TSMD"> <img alt="GitHub issues" src="https://img.shields.io/github/issues/grrvlr/TSMD"> <img alt="ReadTheDocs Status" src="https://readthedocs.org/projects/tsmd/badge/?version=latest"> 
 </p>
 
-Motif Discovery consists of identifying repeated patterns and locating their occurrences in a time series without prior knowledge about their shape or location. In practice motif discovery faces several data-related challenges which has lead to numerous definition of the motif discovery problem and algorithms partially encompassing these challenges. In this repo, we provide an exhaustive review of the literature in terms of data-related challenges, motif definitions, and algorithms. We also present an analysis of strengths and weaknesses of algorithms carefully chosen to best represent the litterature spectrum. The analysis follows research questions we identified from our review. Our experimental results provide practical guidelines for selecting motif discovery algorithms suitable for the task at hand and open to new research directions. Overall, we provide implementation of the main motif discovery methods proposed in the litterature, and the experimental scripts to compare them in terms of accuracy and execution time.
+Motif Discovery consists of identifying repeated patterns and locating their occurrences in a time series without prior knowledge about their shape or location. In practice, motif discovery faces several data-related challenges which has led to numerous definitions of the motif discovery problem and algorithms partially encompassing these challenges. In this repo, we provide an exhaustive review of the literature in terms of data-related challenges, motif definitions, and algorithms. We also present an analysis of strengths and weaknesses of algorithms carefully chosen to best represent the literature spectrum. The analysis follows research questions we identified from our review. Our experimental results provide practical guidelines for selecting motif discovery algorithms suitable for the task at hand and open to new research directions. Overall, we provide implementation of the main motif discovery methods proposed in the literature and the experimental scripts to compare them in terms of accuracy and execution time.
 
 ## Contributors
 
@@ -20,7 +20,7 @@ Motif Discovery consists of identifying repeated patterns and locating their occ
 
 ## Installation
 
-We provide below some important guidlines to use our datasets or implemented algorithms.
+We provide below some important guidelines to use our datasets or implemented algorithms.
 
 ## Time series Datasets for Motif Discovery
 
@@ -76,7 +76,11 @@ For a given number of motifs $K$, the generator constructs one representative pe
 
 ## Motif Discovery Methods
 
-In order to address the research questions enumerated in the previous section, we have to carefully select algorithms  from different families to best represent the diversity of Motif Discovery techniques. In total, we selected 11 Motif Discovery algorithms.
+In order to address the research questions enumerated in the previous section, we have to carefully select algorithms  from different families to best represent the diversity of Motif Discovery techniques. We provide below a taxonomy of methods proposed in the literature. Among all methods listed in this taxonomy, we selected 11 Motif Discovery algorithms.
+
+<p align="center">
+<img width="900" src="./assets/Taxonomy_TSMD.png"/>
+</p>
 
 The following motivations drive our selection of Motif Discovery methods: 
 1. Our collection of methods should have at least one representative from each of the main families of methods we presented earlier. 

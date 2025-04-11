@@ -7,7 +7,7 @@ Grammarviz [Senin et al. 2018] uses grammar induction methods for motif detectio
 ### Usage
 
 ```python
-TODO example of usage
+print(1)
 ```
 ```
 TODO output

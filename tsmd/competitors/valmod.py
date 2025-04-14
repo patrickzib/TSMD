@@ -85,10 +85,10 @@ class Valmod(object):
         listDP : list of np.ndarray 
             List containing for each i the successive informations:
             
-                -the indexes of the p minimum Dij.
-                -the corresponding distances.
-                -the corresponding LB.
-                -the corresponding dot_products.
+            - the indexes of the p minimum Dij.
+            - the corresponding distances.
+            - the corresponding LB.
+            - the corresponding dot_products.
                 
         """
         

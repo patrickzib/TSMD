@@ -7,11 +7,20 @@ The STOMP algorithm [Yeh et al. 2016] is a similarity-based method and proposes 
 ### Usage
 
 ```python
-TODO example of usage
+from tsmd.competitors.matrixprofile import MatrixProfile
+from tsmd.tools.utils import transform_label
+from tsmd.tools.plotting import plot_signal_pattern
+
+
+mp=MatrixProfile(n_patterns=2, wlen=200, radius_ratio=3, distance_name = 'UnitEuclidean')
+mp.fit(signal)
+
+labels=transform_label(mp.prediction_mask_)
+plot_signal_pattern(signal,labels)
 ```
-```
-TODO output
-```
+
+![STOMP output](../../../assets/methodExample/stomp_example.png "STOMP output")
+
 
 ### Reference
 
@@ -24,11 +33,20 @@ PanMP [Madrid et al. 2019] aims to generalize the Matrix Profile approach to det
 ### Usage
 
 ```python
-TODO example of usage
+from tsmd.competitors.panmatrixprofile import PanMatrixProfile
+from tsmd.tools.utils import transform_label
+from tsmd.tools.plotting import plot_signal_pattern
+
+
+pmp=PanMatrixProfile(n_patterns=2, min_wlen=180, max_wlen=220, radius_ratio=3, distance_name = 'UnitEuclidean')
+pmp.fit(signal)
+
+labels=transform_label(pmp.prediction_mask_)
+plot_signal_pattern(signal,labels)
 ```
-```
-TODO output
-```
+
+![PANMP output](../../../assets/methodExample/panmp_example.png "PanMatrixprofile output")
+
 
 ### Reference
 
@@ -47,11 +65,20 @@ VALMOD [Linardi et al. 2018] has a similar goal to PanMP but employs a slightly 
 ### Usage
 
 ```python
-TODO example of usage
+from tsmd.competitors.valmod import Valmod
+from tsmd.tools.utils import transform_label
+from tsmd.tools.plotting import plot_signal_pattern
+
+
+valmod=Valmod(n_patterns=2, min_wlen=180, max_wlen=220, radius_ratio=3, distance_name = 'UnitEuclidean')
+valmod.fit(signal)
+
+labels=transform_label(valmod.prediction_mask_)
+plot_signal_pattern(signal,labels)
 ```
-```
-TODO output
-```
+
+![Valmod output](../../../assets/methodExample/valmod_example.png "Valmod output")
+
 
 ### Reference
 
@@ -64,11 +91,20 @@ Unlike most other algorithms in our benchmark that require the user to set a rad
 ### Usage
 
 ```python
-TODO example of usage
+from tsmd.competitors.motiflets import Motiflets
+from tsmd.tools.utils import transform_label
+from tsmd.tools.plotting import plot_signal_pattern
+
+
+mf=Motiflets(k_max=5, min_wlen=180, max_wlen=220)
+mf.fit(signal)
+
+labels=transform_label(mf.prediction_mask_)
+plot_signal_pattern(signal,labels)
 ```
-```
-TODO output
-```
+
+![Motiflets output](../../../assets/methodExample/motiflets_example.png "k-Motiflets output")
+
 
 ### Reference
 
@@ -81,11 +117,20 @@ This method [Germain et al. 2024] extracts the motifs through three computationa
 ### Usage
 
 ```python
-TODO example of usage
+from tsmd.competitors.persistence import BasePersistentPattern
+from tsmd.tools.utils import transform_label
+from tsmd.tools.plotting import plot_signal_pattern
+
+
+pepa=BasePersistentPattern(wlen_for_persistence=180, n_patterns=2)
+pepa.fit(signal)
+
+labels=transform_label(pepa.prediction_mask_)
+plot_signal_pattern(signal,labels)
 ```
-```
-TODO output
-```
+
+![PEPA output](../../../assets/methodExample/pepa_example.png "PEPA output")
+
 
 ### Reference
 
@@ -98,11 +143,20 @@ A variant of PEPA [Germain et al. 2024] that does not require the user to define
 ### Usage
 
 ```python
-TODO example of usage
+from tsmd.competitors.adaptative_persistence import AdaptativeBasePersistentPattern
+from tsmd.tools.utils import transform_label
+from tsmd.tools.plotting import plot_signal_pattern
+
+
+apepa=AdaptativeBasePersistentPattern(wlen_for_persistence=180)
+apepa.fit(signal)
+
+labels=transform_label(apepa.prediction_mask_)
+plot_signal_pattern(signal,labels)
 ```
-```
-TODO output
-```
+
+![A-PEPA output](../../../assets/methodExample/apepa_example.png "A-PEPA output")
+
 
 ### Reference
 

@@ -61,9 +61,9 @@ lm.fit(signal)
 labels=transform_label(lm.prediction_mask_)
 plot_signal_pattern(signal,labels)
 ```
-```
+
 ![LatentMotif output](../../../assets/methodExample/latentmotif_example.png "LatentMotif output")
-```
+
 
 ### Reference
 

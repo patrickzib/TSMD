@@ -7,7 +7,7 @@ Grammarviz [Senin et al. 2018] uses grammar induction methods for motif detectio
 ### Usage
 
 ```python
-print(1)
+TODO 
 ```
 ```
 TODO output
@@ -25,11 +25,20 @@ More specifically, the method utilizes the MDL principle to form clusters. In ea
 ### Usage
 
 ```python
-TODO example of usage
+from tsmd.competitors.mdl import MDL
+from tsmd.tools.utils import transform_label
+from tsmd.tools.plotting import plot_signal_pattern
+
+
+mdl=MDL(min_wlen=180,max_wlen=220)
+mdl.fit(signal)
+
+labels=transform_label(mdl.prediction_mask_)
+plot_signal_pattern(signal,labels)
 ```
-```
-TODO output
-```
+
+![MDL output](../../../assets/methodExample/mdl_example.png "MDL output")
+
 
 ### Reference
 
@@ -42,11 +51,19 @@ The LoCoMotif method [Wesenbeeck et al. 2024] addresses the challenge of variabl
 ### Usage
 
 ```python
-TODO example of usage
+from tsmd.competitors.locomotif import LocoMotif
+from tsmd.tools.utils import transform_label
+from tsmd.tools.plotting import plot_signal_pattern
+
+
+loco=LocoMotif(n_patterns=2, min_wlen = 180, max_wlen =220)
+loco.fit(signal)
+
+labels=transform_label(loco.prediction_mask_)
+plot_signal_pattern(signal,labels)
 ```
-```
-TODO output
-```
+![LoCoMotif output](../../../assets/methodExample/locomotif_example.png "LoCoMotif output")
+
 
 ### Reference
 

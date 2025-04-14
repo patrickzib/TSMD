@@ -23,10 +23,10 @@ class Valmod(object):
 
     Attributes
     ----------
-
-    prediction_mask_ : A binary mask of shape (n_patterns, n_samples) indicating the presence of motifs across the signal.
-    Each row corresponds to one discovered motif, and each column to a time step.
-    A value of 1 means the motif is present at that time step, and 0 means it is not.
+    prediction_mask_ : np.ndarray of shape (n_patterns, n_samples)
+        Binary mask indicating the presence of motifs across the signal.  
+        Each row corresponds to one discovered motif, and each column to a time step.  
+        A value of 1 means the motif is present at that time step, and 0 means it is not.
     """
     
     def __init__(self,n_patterns:int, min_wlen:int, max_wlen:int, p=20, radius_ratio=3, distance_name="UnitEuclidean", distance_params =dict())-> None:

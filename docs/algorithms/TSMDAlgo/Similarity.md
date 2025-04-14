@@ -39,7 +39,7 @@ TODO output
 VALMOD [Linardi et al. 2018] has a similar goal to PanMP but employs a slightly different approach. It leverages pruning techniques to compute the Matrix Profile over a range of window lengths, $\ell$. Motif Pairs are iteratively selected based on distance normalized by the square root of the window length. Motif sets are then built from these top Motif Pairs by identifying non-overlapping subsequences within a distance $< R$ from one of the two centers. 
 
 ```{eval-rst}  
-.. autoclass:: tsmd.competitors.valmod.VALMOD
+.. autoclass:: tsmd.competitors.valmod.Valmod
     :members:
 
 ```

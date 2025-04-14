@@ -11,7 +11,7 @@ generator=SignalGenerator(n_motifs=2, motif_length=200, motif_amplitude=3, motif
 signal,labels= generator.generate()
 plot_signal_pattern(signal,transform_label(labels))
 ```
-![Synthetic signal](../../assets/methodExample/signal_example.png "Synthetic signal")
+![Synthetic signal](../../../assets/methodExample/signal_example.png "Synthetic signal")
 
 
 
@@ -22,11 +22,20 @@ This algorithm [Bagnall et al. 2014] finds the K-motif sets directly, based on a
 ### Usage
 
 ```python
-TODO example of usage
+from tsmd.competitors.setfinder import Baseline
+from tsmd.tools.utils import transform_label
+from tsmd.tools.plotting import plot_signal_pattern
+
+
+sf=Baseline(n_patterns=2, radius = 1, wlen = 200, distance_name='UnitEuclidean')
+sf.fit(signal)
+
+labels=transform_label(sf.prediction_mask_)
+plot_signal_pattern(signal,labels)
 ```
-```
-TODO output
-```
+
+![SetFinder output](../../../assets/methodExample/setfinder_example.png "SetFinder output")
+
 
 ### Reference
 
@@ -41,10 +50,19 @@ This method [Grabocka et al. 2016] addresses a variant of the K-Motifs problem a
 ### Usage
 
 ```python
-TODO example of usage
+from tsmd.competitors.latentmotifs import LatentMotif
+from tsmd.tools.utils import transform_label
+from tsmd.tools.plotting import plot_signal_pattern
+
+
+lm=LatentMotif(n_patterns=2, radius = 10, wlen = 200)
+lm.fit(signal)
+
+labels=transform_label(lm.prediction_mask_)
+plot_signal_pattern(signal,labels)
 ```
 ```
-TODO output
+![LatentMotif output](../../../assets/methodExample/latentmotif_example.png "LatentMotif output")
 ```
 
 ### Reference

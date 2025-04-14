@@ -26,7 +26,7 @@ class Valmod(object):
         Each occurrence is (start, end), with start and end being the starting and ending index in the time series, respectively.  
     """
     
-    def __init__(self,n_patterns:int, min_wlen:int, max_wlen:int, p=20, radius_factor=3, distance_name="NormalizedEuclidean", distance_params =dict())-> None:
+    def __init__(self,n_patterns:int, min_wlen:int, max_wlen:int, p=20, radius_ratio=3, distance_name="NormalizedEuclidean", distance_params =dict())-> None:
         
         self.n_patterns = n_patterns
         self.min_wlen = min_wlen

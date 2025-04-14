@@ -14,7 +14,7 @@ class Valmod(object):
         Maximum window length.
     p : int, optional (default=20) 
         Minimal number of distances computed in any cases.
-    distance_name : str, optional (default="NormalizedEuclidean")
+    distance_name : str, optional, default="NormalizedEuclidean"
         Name of the distance.
     distance_params : dict, optional (default=dict())
         Additional distance parameters. Defaults to dict().

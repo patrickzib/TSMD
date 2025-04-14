@@ -5,20 +5,21 @@ import warnings
 warnings.filterwarnings('ignore')
 
 class LatentMotif(object): 
+    """LatentMotif algorithms that addresses a variant of the K-Motifs problem as a constrained optimization task, where the center of the motif is learned.
+
+    Args:
+        n_patterns (int): number of patterns
+        wlen (int): window length 
+        radius (float): cluster radius
+        alpha (float, optional): regularization parameter. Defaults to 1.0.
+        learning_rate (float, optional): learning rate. Defaults to 0.1.
+        n_iterations (int, optional): number of gradient iteration. Defaults to 100.
+        n_strats (int, optional): number of trials. Defaults to 10.
+        verbose (bool, optional): verbose. Defaults to False.
+    """
     
     def __init__(self,n_patterns:int,wlen:int,radius:float,alpha = 1.0,learning_rate =0.1,n_iterations = 100, n_starts = 1, verbose = False) -> None:
-        """Initialization
-
-        Args:
-            n_patterns (int): number of patterns
-            wlen (int): window length 
-            radius (float): cluster radius
-            alpha (float, optional): regularization parameter. Defaults to 1.0.
-            learning_rate (float, optional): learning rate. Defaults to 0.1.
-            n_iterations (int, optional): number of gradient iteration. Defaults to 100.
-            n_strats (int, optional): number of trials. Defaults to 10.
-            verbose (bool, optional): verbose. Defaults to False.
-        """
+    
         self.n_patterns = n_patterns
         self.wlen = wlen
         self.radius = radius
@@ -102,7 +103,7 @@ class LatentMotif(object):
         
 
     def fit(self,signal:np.ndarray)->None:
-        """Fit
+        """Fit LatentMotif algorithm
 
         Args:
             signal (np.ndarray): signal, shape: (L,)

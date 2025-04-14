@@ -4,6 +4,12 @@
 
 This algorithm [Bagnall et al. 2014] finds the K-motif sets directly, based on a counting and separating principle. In practice, each subsequence is compared to every other, and the non-overlapping matches  are counted. Then, each subsequence with a non-zero count is checked to ensure that its distance to another subsequence with a larger number of matches is greater than a given threshold.
 
+```{eval-rst}  
+.. autoclass:: tsmd.competitors.setfinder.Baseline
+    :members:
+
+```
+
 ### Usage
 
 ```python
@@ -31,6 +37,12 @@ plot_signal_pattern(signal,labels)
 
 This method [Grabocka et al. 2016] addresses a variant of the K-Motifs problem as a constrained optimization task, where the center of the motif is learned (the center doesn't need to be a subsequence of $S$ but can belong to any element in $\mathbb{R}^n$). The initial objective and constraint functions are regularized to enable gradient ascent. The learned subsequences are then returned as the centers of the motif sets. To identify all occurrences of each motif set, a complete scan of the time series subsequences is conducted. Non-overlapping subsequences within a distance $R$ of the learned center are considered occurrences of the motif set.
 
+
+```{eval-rst}  
+.. autoclass:: tsmd.competitors.latentmotifs.LatentMotif
+    :members:
+
+```
 
 ### Usage
 

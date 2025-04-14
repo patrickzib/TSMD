@@ -7,18 +7,31 @@ import warnings
 warnings.filterwarnings('ignore')
 
 class MatrixProfile(object): 
+    """STOMP algorithm for motif discovery.
 
-    def __init__(self,n_patterns:int,wlen:int,distance_name:str,distance_params = dict(),radius_ratio = 3,n_jobs = 1) -> None:
-        """Initialization
-
-        Args:
-            n_patterns (int): Number of neighbors
-            wlen (int): Window length
-            distance_name (str): name of the distance
-            distance_params (_type_, optional): additional distance parameters. Defaults to dict().
-            radius_ratio (float): radius as a ratio of min_dist. 
-            n_jobs (int, optional): number of processes. Defaults to 1.
+        Parameters
+        ----------
+        n_patterns : int 
+            Number of patterns to detect.
+        wlen : int
+            Window length.
+        radius_ratio : float, optional (default=3.0)
+            Threshold scaling factor for pattern inclusion. (Given a Motif Pair with distance d, the threshold is equal to radius_ratio*d)
+        distance_name : str, optional, default="UnitEuclidean"
+            Name of the distance.
+        distance_params : dict, optional (default=dict())
+            Additional distance parameters. 
+        n_jobs : int, optional (default=1)
+            Number of jobs.
+        Attributes
+        ----------
+        prediction_mask_ : np.ndarray of shape (n_patterns, n_samples)
+            Binary mask indicating the presence of motifs across the signal.  
+            Each row corresponds to one discovered motif, and each column to a time step.  
+            A value of 1 means the motif is present at that time step, and 0 means it is not.
         """
+    def __init__(self,n_patterns:int,wlen:int,distance_name:str,distance_params = dict(),radius_ratio = 3,n_jobs = 1) -> None:
+    
         self.n_patterns = n_patterns
         self.radius_ratio = radius_ratio
         self.wlen = wlen
@@ -27,15 +40,23 @@ class MatrixProfile(object):
         self.n_jobs = n_jobs
 
     def _search_neighbors(self,idx:int,line:np.ndarray)-> tuple: 
-        """Find index and distance value of the non overlapping nearest neighbors under a radius.
+        """Find the indices and distances of non-overlapping neighbors under the radius threshold.
 
-        Args:
-            idx (int): index of the considerded line in the crossdistance matrix
-            line (np.ndarray): line of the crossdistance matrix. shape: (n_sample,)
+        Parameters
+        ----------
+        idx : int
+            Index of the current line in the cross-distance matrix.
+        line : np.ndarray
+            A single line of the cross-distance matrix of shape (n_samples,).
 
-        Returns:
-            tuple: neighbor index np.ndarray, neighbor distance np.ndarray
+        Returns
+        -------
+        neighbors: np.ndarray
+            Indices of neighboring subsequences satisfying the radius condition.
+        dists: np.ndarray
+            Corresponding distances to those neighbors.
         """
+
 
         #initilization
         neighbors = []
@@ -61,14 +82,21 @@ class MatrixProfile(object):
         return neighbors,dists
 
     def _elementary_profile(self,start:int,end:int)->tuple:
-        """Find elementary profile of a chunk of successive lines of the crossdistance matrix
+        """Compute elementary profile of a chunk of successive lines of the crossdistance matrix
 
-        Args:
-            start (int): chunk start
-            end (int): chunck end
+        Parameters
+        ----------
+        start : int
+            Starting index of the chunk.
+        end : int
+            Ending index of the chunk (exclusive).
 
-        Returns:
-            tuple: neighborhood count, neighborhood std
+        Returns
+        -------
+        neighbors: list of np.ndarray 
+            Indices of neighbors for each line in the chunk.
+        dists: list of np.ndarray 
+            Corresponding distances for each neighbor set.
         """
         #initialization
         neighbors =[]
@@ -93,7 +121,15 @@ class MatrixProfile(object):
         return neighbors,dists
 
     def profile_(self)->None: 
+        """Compute the profile for all subsequences using parallel computation.
+        This method divides the task into chunks based on `n_jobs`, and collects
+        the neighborhood indices and distances for each subsequence.
 
+        Returns
+        -------
+        self : MatrixProfile
+            The updated MatrixProfile instance with `idxs_` and `dists_` attributes set.
+    """
         #divide the signal accordingly to the number of jobs
         set_idxs = np.linspace(0,self.mdim_,self.n_jobs+1,dtype=int)
         set_idxs = np.vstack((set_idxs[:-1],set_idxs[1:])).T
@@ -110,6 +146,8 @@ class MatrixProfile(object):
         return self
 
     def find_patterns_(self): 
+        """Identify the most representative motifs by first running a PairMotifs search, 
+        then scanning all subsequences to determine which ones fall within a radius `r` of the discovered motif pairs."""
         profile = self.dists_.copy()
         mask = []
         patterns = []
@@ -129,10 +167,17 @@ class MatrixProfile(object):
         self.patterns_ = patterns
 
     def fit(self,signal:np.ndarray)->None:
-        """Compute the best patterns
-
-        Args:
-            signal (np.ndarray): Univariate time-series, shape: (L,)
+        """Fit STOMP
+        
+        Parameters
+        ----------
+        signal : numpy array of shape (n_samples, )
+            The input samples (time series length).
+        
+        Returns
+        -------
+        self : object
+            Fitted estimator.
         """
         
         #initialisation

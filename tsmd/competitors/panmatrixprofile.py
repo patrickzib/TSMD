@@ -8,19 +8,33 @@ import warnings
 warnings.filterwarnings('ignore')
 
 class PanMatrixProfile(object): 
+    """STOMP algorithm for motif discovery.
 
-    def __init__(self,n_patterns:int,min_wlen:int,max_wlen:int,distance_name:str,distance_params = dict(),radius_ratio = 3,normalized=False,n_jobs = 1) -> None:
-        """Initialization
-
-        Args:
-            n_patterns (int): Number of neighbors
-            min_wlen (int): Minimum window length
-            max_wlen (int): Maximum window length
-            distance_name (str): name of the distance
-            distance_params (_type_, optional): additional distance parameters. Defaults to dict().
-            radius_ratio (float): radius as a ratio of min_dist. 
-            n_jobs (int, optional): number of processes. Defaults to 1.
+        Parameters
+        ----------
+        n_patterns : int 
+            Number of patterns to detect.
+        min_wlen : int
+            Minimium window length.
+        max_wlen : int 
+            Maximum window length.
+        radius_ratio : float, optional (default=3.0)
+            Threshold scaling factor for pattern inclusion. (Given a Motif Pair with distance d, the threshold is equal to radius_ratio*d)
+        distance_name : str, optional, default="UnitEuclidean"
+            Name of the distance.
+        distance_params : dict, optional (default=dict())
+            Additional distance parameters. 
+        n_jobs : int, optional (default=1)
+            Number of jobs.
+        Attributes
+        ----------
+        prediction_mask_ : np.ndarray of shape (n_patterns, n_samples)
+            Binary mask indicating the presence of motifs across the signal.  
+            Each row corresponds to one discovered motif, and each column to a time step.  
+            A value of 1 means the motif is present at that time step, and 0 means it is not.
         """
+    def __init__(self,n_patterns:int,min_wlen:int,max_wlen:int,distance_name:str,distance_params = dict(),radius_ratio = 3,normalized=False,n_jobs = 1) -> None:
+    
         self.n_patterns = n_patterns
         self.radius_ratio = radius_ratio
         self.min_wlen = min_wlen
@@ -31,15 +45,23 @@ class PanMatrixProfile(object):
         self.n_jobs = n_jobs
 
     def _search_neighbors(self,wlen_idx:int,seed_idx:int,line:np.ndarray)-> tuple: 
-        """Find index and distance value of the non overlapping nearest neighbors under a radius.
+        """Find the indices and distances of non-overlapping neighbors under the radius threshold for a given window length index.
 
-        Args:
-            wlen_idx (int): index of the window length and associated profile
-            seed_idx (int): index of the considerded line in the crossdistance matrix
-            line (np.ndarray): line of the crossdistance matrix. shape: (n_sample,)
+        Parameters
+        ----------
+        wlen_idx : int 
+            Index of the window length (in self.wlens_).
+        seed_idx : int
+            Index of the current line in the cross-distance matrix.
+        line : np.ndarray
+            A single line of the cross-distance matrix of shape (n_samples,).
 
-        Returns:
-            tuple: neighbor index np.ndarray, neighbor distance np.ndarray
+        Returns
+        -------
+        neighbors: np.ndarray
+            Indices of neighboring subsequences satisfying the radius condition.
+        dists: np.ndarray
+            Corresponding distances to those neighbors.
         """
 
         #initilization
@@ -70,14 +92,21 @@ class PanMatrixProfile(object):
         return neighbors,dists
     
     def _elementary_profile(self,idx:int,start:int,end:int)->tuple:
-        """Find elementary profile of a chunk of successive lines of the crossdistance matrix
+        """Compute elementary profile of a chunk of successive lines of the crossdistance matrix
 
-        Args:
-            start (int): chunk start
-            end (int): chunck end
+        Parameters
+        ----------
+        start : int
+            Starting index of the chunk.
+        end : int
+            Ending index of the chunk (exclusive).
 
-        Returns:
-            tuple: neighborhood count, neighborhood std
+        Returns
+        -------
+        neighbors: list of np.ndarray 
+            Indices of neighbors for each line in the chunk.
+        dists: list of np.ndarray 
+            Corresponding distances for each neighbor set.
         """
         #initialization
         neighbors =[]
@@ -102,13 +131,20 @@ class PanMatrixProfile(object):
         return neighbors,dists
 
     def profile_(self,idx:int)->np.ndarray: 
-        """Compute profile of wlen
+        """Compute the profile for all subsequences using parallel computation for a given window length index.
+        This method divides the task into chunks based on `n_jobs`, and collects
+        the neighborhood indices and distances for each subsequence.
+        Parameters
+        ----------
+        idx: int
+            Index of the window length (in self.wlens_).
 
-        Args:
-            idx (int): window length index
-
-        Returns:
-            np.ndarray: profile, nearest neighbor index
+        Returns
+        -------
+        dists: np.ndarray
+            The Matrix Profile, containing the minimal distances for each subsequence.
+        idxs: np.ndarray 
+            The Index Profile, containing the indices of the nearest neighbors.
         """
 
         #divide the signal accordingly to the number of jobs
@@ -127,13 +163,19 @@ class PanMatrixProfile(object):
     def _temporary_mask(self,wlen_idx:int,mask:list,patterns:list)->list: 
         """Create mask associated with the current research windows
 
-        Args:
-            wlen_idx (int): window length index
-            mask (list): current mask
-            patterns (list): list of patterns already detected
+        Parameters
+        ----------
+        wlen_idx : int 
+            Index of the window length (in self.wlens_).
+        mask : list
+            Current mask.
+        patterns :list 
+            List of patterns already detected.
 
-        Returns:
-            list: mask for the search of neighbors
+        Returns
+        -------
+        mask: list 
+            Mask for the search of neighbors.
         """
         t_mask = mask.copy()
         for _, p_idxs in patterns: 
@@ -144,6 +186,7 @@ class PanMatrixProfile(object):
         return t_mask[keep_idx].tolist()
 
     def find_patterns_(self): 
+        """Identify the most representative motifs"""
         profiles = self.profiles_.copy()
         mask = []
         patterns = []
@@ -181,10 +224,17 @@ class PanMatrixProfile(object):
         self.patterns_ = patterns
 
     def fit(self,signal:np.ndarray)->None:
-        """Compute the best patterns
-
-        Args:
-            signal (np.ndarray): Univariate time-series, shape: (L,)
+        """Fit PanMP
+        
+        Parameters
+        ----------
+        signal : numpy array of shape (n_samples, )
+            The input samples (time series length).
+        
+        Returns
+        -------
+        self : object
+            Fitted estimator.
         """
         
         #initialisation

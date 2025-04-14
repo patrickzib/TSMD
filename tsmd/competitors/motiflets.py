@@ -11,7 +11,30 @@ matplotlib.rcParams['ps.fonttype'] = 42
 
 
 class Motiflets:
+    """k-Motiflets algorithm for motif discovery.
 
+    Parameters
+        ----------
+        k_max : int 
+            Maximum number of occurences of a single motif.
+        min_wlen : int
+            Minimium window length.
+        max_wlen : int 
+            Maximum window length.
+        elbow_deviation : float, optional (default=1.0)
+            The minimal absolute deviation needed to detect an elbow.
+            It measures the absolute change in deviation from k to k+1.
+            1.05 corresponds to 5% increase in deviation.
+        slack : float, optional (default=0.5)
+            Defines an exclusion zone around each subsequence to avoid trivial matches.
+            Defined as percentage of m. E.g. 0.5 is equal to half the window length.
+        Attributes
+        ----------
+        prediction_mask_ : np.ndarray of shape (n_patterns, n_samples)
+            Binary mask indicating the presence of motifs across the signal.  
+            Each row corresponds to one discovered motif, and each column to a time step.  
+            A value of 1 means the motif is present at that time step, and 0 means it is not.
+        """
     def __init__(
             self,
             k_max,
@@ -20,38 +43,6 @@ class Motiflets:
             elbow_deviation=1.00,
             slack=0.5,
     ):
-        """Computes the AU_EF plot to extract the best motif lengths
-
-            This is the method to find and plot the characteristic motif-lengths, for k in
-            [2...k_max], using the area AU-EF plot.
-
-            Details are given within the paper 5.2 Learning Motif Length l.
-
-            Parameters
-            ----------
-            ds_name: String
-                Name of the time series for displaying
-            series: array-like
-                the TS
-            ground_truth: pd.Series
-                Ground-truth information as pd.Series.
-            elbow_deviation : float, default=1.00
-                The minimal absolute deviation needed to detect an elbow.
-                It measures the absolute change in deviation from k to k+1.
-                1.05 corresponds to 5% increase in deviation.
-            slack: float
-                Defines an exclusion zone around each subsequence to avoid trivial matches.
-                Defined as percentage of m. E.g. 0.5 is equal to half the window length.
-            n_jobs : int
-                Number of jobs to be used.
-
-            Returns
-            -------
-            best_motif_length: int
-                The motif length that maximizes the AU-EF.
-
-            """
-    
         self.elbow_deviation = elbow_deviation
         self.slack = slack
 
@@ -62,6 +53,18 @@ class Motiflets:
         self.k_max = k_max +1 
 
     def fit(self,signal):
+        """Fit Motiflets
+        
+        Parameters
+        ----------
+        signal : numpy array of shape (n_samples, )
+            The input samples (time series length).
+        
+        Returns
+        -------
+        self : object
+            Fitted estimator.
+        """
         self.signal=signal
         self.fit_motif_length()
         self.fit_k_elbow()

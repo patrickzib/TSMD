@@ -1,6 +1,6 @@
 import numpy as np
 from joblib import Parallel,delayed
-import distance as distance
+import tsmd.tools.distance as distance
 
 
 import warnings

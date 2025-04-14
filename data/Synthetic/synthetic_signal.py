@@ -262,5 +262,4 @@ class SignalGenerator(object):
             width = 1200, 
             height = 300
         )
-        
         fig.show() 

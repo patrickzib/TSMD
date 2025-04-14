@@ -32,7 +32,7 @@ class Valmod(object):
         self.min_wlen = min_wlen
         self.max_wlen = max_wlen+1
         self.p = p 
-        self.radius_factor=radius_factor
+        self.radius_factor=radius_ratio
         self.distance_name = distance_name
         self.distance_params = distance_params
 

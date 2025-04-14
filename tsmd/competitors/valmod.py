@@ -7,15 +7,15 @@ class Valmod(object):
     Parameters
     ----------
     n_patterns : int 
-        Number of neighbors
+        Number of neighbors.
     min_wlen : int 
-        Minimum window length
+        Minimum window length.
     max_wlen : int
-        Maximum window length
+        Maximum window length.
     p : int, optional (default=20) 
-        Minimal number of distances computed in any cases
+        Minimal number of distances computed in any cases.
     distance_name : str, optional (default="NormalizedEuclidean")
-        Name of the distance
+        Name of the distance.
     distance_params : dict, optional (default=dict())
         Additional distance parameters. Defaults to dict().
 
@@ -42,13 +42,13 @@ class Valmod(object):
         Parameters
         ----------
         idx: int
-            window length index
+            window length index.
         i : int 
-            considered subsequence
+            considered subsequence.
         Returns
         -------
         LB: np.ndarray
-            Lower bounds array
+            Lower bounds array.
         """
         
         wlen=self.wlens_[idx]
@@ -73,20 +73,23 @@ class Valmod(object):
             
         Parameters
         ----------
-        idx : int, window length index
+        idx : int
+            window length index.
         
         Returns
         -------
         MP : np.ndarray 
-            MatrixProfile
+            MatrixProfile.
         IP : np.ndarray 
-            Index Profile
+            Index Profile.
         listDP : list of np.ndarray 
             List containing for each i the successive informations:
-                -the indexes of the p minimum Dij
-                -the corresponding distances
-                -the corresponding LB
-                -the corresponding dot_products
+            
+                -the indexes of the p minimum Dij.
+                -the corresponding distances.
+                -the corresponding LB.
+                -the corresponding dot_products.
+                
         """
         
         wlen=self.wlens_[idx]
@@ -135,22 +138,22 @@ class Valmod(object):
         Parameters
         ----------
         idx : int 
-            Window length index
+            Window length index.
         i : int 
-            Offset of the first subsequence (the one for which we don't know Ti,l+k)
+            Offset of the first subsequence (the one for which we don't know Ti,l+k).
         j : int 
-            Offset of the second subsequence (the one for which we know Tj,l+k)
+            Offset of the second subsequence (the one for which we know Tj,l+k).
         dot_product : np.ndarray 
-            dot product QTi,j for len wlen
+            dot product QTi,j for len wlen.
         LB : np.ndarray
-            lower bound of Di,j for len l
+            lower bound of Di,j for len l.
             
         Returns
         -------
         new_distance : np.ndarray 
-            Updated Di,j for len l+k
+            Updated Di,j for len l+k.
         new_LB : np.ndarray
-            Updated LB for len l+k
+            Updated LB for len l+k.
         """
         
         wlen=self.wlens_[idx]
@@ -175,16 +178,16 @@ class Valmod(object):
         Parameters
         ----------
         idx : int 
-            Window length index
+            Window length index.
                 
         Returns
         -------
         bBestM : Bool
-            Indicate if the subMP is sufficient to obtain the whole MatrixProfile
+            Indicate if the subMP is sufficient to obtain the whole MatrixProfile.
         SubMP : np.ndarray 
-            SubMatrixProfile 
+            SubMatrixProfile.
         IP : np.ndarray 
-            SubIndexProfile
+            SubIndexProfile.
         """
         
         wlen=self.wlens_[idx]
@@ -380,11 +383,11 @@ class VALMP(object):
         Parameters
         ----------
         MPnew : np.ndarray 
-            Matrix profile for the current length
+            Matrix profile for the current length.
         IP : np.ndarray
-            Index profile for the current length
+            Index profile for the current length.
         wlen : int
-            Current length
+            Current length.
 
         Returns
         -------

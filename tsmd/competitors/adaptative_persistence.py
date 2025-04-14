@@ -11,7 +11,32 @@ from tsmd.tools.post_processing import PostProcessing
 #########################################################################################################################################
 
 class AdaptativeBasePersistentPattern(object): 
+    """A-PEPA algorithm for motif discovery.
 
+    Parameters
+    ----------
+    wlen_for_persistence : int
+        Window length. A good heuristic to set the window length for PEPA is to take the average window length minus the standard deviation window length.
+    n_neighbors : int, optional (default=5)
+        Number of neighbors used to construct the graph during the first phase of PEPA.
+    jump : int, optional (default=1)
+        Number of jumps used to compute persistance cut and birth cut.
+    distance_name : str, optional, default="LTNormalizedEuclidean"
+        Name of the distance.
+    alpha : float, optional (default=10.0)
+        Parameter for the distance adjustement.
+    beta : float, optional (default=0)
+        Parameter for the distance adjustement.
+    n_jobs : int, optional (default=1)
+        Number of jobs.
+    
+    Attributes
+    ----------
+    prediction_mask_ : np.ndarray of shape (n_patterns, n_samples)
+        Binary mask indicating the presence of motifs across the signal.  
+        Each row corresponds to one discovered motif, and each column to a time step.  
+        A value of 1 means the motif is present at that time step, and 0 means it is not.
+    """
     def __init__(self,wlen_for_persistence:int,n_neighbors=5,jump=2,distance_name_for_persistence = "LTNormalizedEuclidean",alpha =10,beta = 0,individual_bith_cut = False,similar_length = False, similarity = 0.25,n_jobs =1): 
         self.wlen = wlen_for_persistence
         self.n_neighbors = n_neighbors
@@ -89,6 +114,18 @@ class AdaptativeBasePersistentPattern(object):
         self.post_processing_.fit(idx_lst,mp)
 
     def fit(self,signal:np.ndarray)->None: 
+        """Fit APEPA
+        
+        Parameters
+        ----------
+        signal : numpy array of shape (n_samples, )
+            The input samples (time series length).
+        
+        Returns
+        -------
+        self : object
+            Fitted estimator.
+        """
         self._base_persistence(signal)
         self._thresholds()
         self._birth_cut_dct()

@@ -22,6 +22,12 @@ TODO output
 The MDL-CLust method [Rakthanmanon et al. 2012] aims to perform clustering of subsequences. However, since clustering time series subsequences is generally ineffective, the authors propose disregarding data that does not fit into any cluster and avoiding overlapping subsequences. Thus, the output of MDL-CLust can be fully interpreted as motif sets. 
 More specifically, the method utilizes the MDL principle to form clusters. In each iteration, we can either create a new cluster (by selecting the first two members using a classic PairMotif algorithm), add a subsequence to an existing cluster, or merge two clusters. We select the operation that most effectively reduces the description length. The algorithm terminates when no usable data remains or further reduction in the time series description length is no longer possible.
 
+```{eval-rst}  
+.. autoclass:: tsmd.competitors.mdl.MDL
+    :members:
+
+```
+
 ### Usage
 
 ```python

@@ -5,8 +5,34 @@ import copy
 
 
 class MDL(object): 
+    """MDL algorithm for motif discovery.
 
-    def __init__(self,min_wlen,max_wlen,step=1,n_bins=6,n_neighbor=10,max_iter=50,n_jobs=1,verbose=True) -> None:
+        Parameters
+        ----------
+        min_wlen : int
+            Minimium window length.
+        max_wlen : int 
+            Maximum window length.
+        step : int, optional (default=1)
+            step used to explore the different window lengths.
+        n_bins : int 
+            Number of bins used to binarize the signal.
+        n_neighbor : int, optional (default=10)
+            Number of neighbors used when K nearest neighbors is called.
+        max_iter : int, optional (default=50)
+            Max number of iteration.
+        n_jobs : int, optional (default=1)
+            Number of jobs
+        verbose: bool, optional(default=False)
+            Varbose mode.
+        Attributes
+        ----------
+        prediction_mask_ : np.ndarray of shape (n_patterns, n_samples)
+            Binary mask indicating the presence of motifs across the signal.  
+            Each row corresponds to one discovered motif, and each column to a time step.  
+            A value of 1 means the motif is present at that time step, and 0 means it is not.
+            """
+    def __init__(self,min_wlen,max_wlen,step=1,n_bins=6,n_neighbor=10,max_iter=50,n_jobs=1,verbose=False) -> None:
         self.min_wlen = min_wlen
         self.max_wlen = max_wlen
         self.step = step
@@ -209,6 +235,18 @@ class MDL(object):
    
             
     def fit(self,signal): 
+        """Fit MDL
+        
+        Parameters
+        ----------
+        signal : numpy array of shape (n_samples, )
+            The input samples (time series length).
+        
+        Returns
+        -------
+        self : object
+            Fitted estimator.
+        """
         self.signal_ = signal
         self.b_signal_ = self._binarized_signal(signal)
 

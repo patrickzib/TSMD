@@ -2,18 +2,32 @@ import numpy as np
 import tsmd.tools.distance as distance
 
 class Valmod(object):
+    """VALMOD algorithm for variable length motif discovery.
 
+    Parameters
+    ----------
+    n_patterns : int 
+        Number of neighbors
+    min_wlen : int 
+        Minimum window length
+    max_wlen : int
+        Maximum window length
+    p : int, optional (default=20) 
+        Minimal number of distances computed in any cases
+    distance_name : str, optional (default="NormalizedEuclidean")
+        Name of the distance
+    distance_params : dict, optional (default=dict())
+        Additional distance parameters. Defaults to dict().
+
+    Attributes
+    ----------
+    motifs : list containing n_patterns lists
+        List containing lists of occurrences for each of the n_patterns motifs identified. 
+        Each occurrence is (start, end), with start and end being the starting and ending index in the time series, respectively.  
+    """
+    
     def __init__(self,n_patterns:int, min_wlen:int, max_wlen:int, p=20, radius_factor=3, distance_name="NormalizedEuclidean", distance_params =dict())-> None:
-        """Initialization
-
-            Args:
-                n_patterns (int): Number of neighbors
-                min_wlen (int): Minimum window length
-                max_wlen (int): Maximum window length
-                p(int): minimal number of distances computed in any cases
-                distance_name (str): name of the distance
-                distance_params (dict, optional): additional distance parameters. Defaults to dict().
-        """
+        
         self.n_patterns = n_patterns
         self.min_wlen = min_wlen
         self.max_wlen = max_wlen+1
@@ -24,11 +38,17 @@ class Valmod(object):
 
     def CompLB(self,idx:int,i:int)->np.ndarray:
         """Compute the LowerBound of the distance between Ti,l+1 and Tj,l+1 for all j
-            Args:
-                idx: window length index
-                i (int): considered subsequence
-            returns: 
-                np.ndarray: lower bounds array
+
+        Parameters
+        ----------
+        idx: int
+            window length index
+        i : int 
+            considered subsequence
+        Returns
+        -------
+        LB: np.ndarray
+            Lower bounds array
         """
         wlen=self.wlens_[idx]
         next_nDP=self.n-wlen
@@ -49,17 +69,24 @@ class Valmod(object):
     
     def ComputeMatrixProfile(self,idx:int)-> tuple:
         """Compute the Matrix Profile and the LowerBound for the length corresponding to idx
-            Args:
-                idx(int): window length index
-            Returns: 
-                MP(np.ndarray): MatrixProfile
-                IP(np.ndarray: Index Profile
-                listDP(list of np.ndarray): list containing for each i the successive informations:
-                    -the indexes of the p minimum Dij
-                    -the corresponding distances
-                    -the corresponding LB
-                    -the corresponding dot_products
-                """
+            
+        Parameters
+        ----------
+        idx : int, window length index
+        
+        Returns
+        -------
+        MP : np.ndarray 
+            MatrixProfile
+        IP : np.ndarray 
+            Index Profile
+        listDP : list of np.ndarray 
+            List containing for each i the successive informations:
+                -the indexes of the p minimum Dij
+                -the corresponding distances
+                -the corresponding LB
+                -the corresponding dot_products
+        """
         wlen=self.wlens_[idx]
         nDP=self.n-wlen+1
         MP=np.zeros(nDP)
@@ -103,15 +130,26 @@ class Valmod(object):
     def updateDistAndLB(self, idx:int, i:int, j:int,dot_product:np.ndarray, LB:np.ndarray)-> tuple:
         #should be vectorized to be more efficient
         """Update the distance and lowerbound for the sequences i and j from a length to the next one 
-            Args:
-                idx(int): window length index
-                i(int): offset of the first subsequence (the one for which we don't know Ti,l+k)
-                j(int): offset of the second subsequence (the one for which we know Tj,l+k)
-                dot_product(np.ndarray): dot product QTi,j for len wlen
-                LB(np.ndarray): lower bound of Di,j for len l
-            Returns:
-                new_distance(np.ndarray): updated Di,j for len l+k
-                new_LB(np.ndarray):updated LB for len l+k
+            
+        Parameters
+        ----------
+        idx : int 
+            Window length index
+        i : int 
+            Offset of the first subsequence (the one for which we don't know Ti,l+k)
+        j : int 
+            Offset of the second subsequence (the one for which we know Tj,l+k)
+        dot_product : np.ndarray 
+            dot product QTi,j for len wlen
+        LB : np.ndarray
+            lower bound of Di,j for len l
+            
+        Returns
+        -------
+        new_distance : np.ndarray 
+            Updated Di,j for len l+k
+        new_LB : np.ndarray
+            Updated LB for len l+k
         """
         wlen=self.wlens_[idx]
         newlen=wlen+1
@@ -131,12 +169,20 @@ class Valmod(object):
  
     def ComputeSubMP(self,idx:int)->tuple:
         """ Compute the SubMatrixProfile from the profile of len l to the profile of len l+1
-            Args: 
-                idx(int): window length index
-            Returns:
-                bBestM(Bool): indicate if the subMP is sufficient to obtain the whole MatrixProfile
-                SubMP(np.ndarray): subMatrixProfile 
-                IP(np.ndarray): SubIndexProfile
+            
+        Parameters
+        ----------
+        idx : int 
+            Window length index
+                
+        Returns
+        -------
+        bBestM : Bool
+            Indicate if the subMP is sufficient to obtain the whole MatrixProfile
+        SubMP : np.ndarray 
+            SubMatrixProfile 
+        IP : np.ndarray 
+            SubIndexProfile
         """
         wlen=self.wlens_[idx]
         next_nDP=self.n-wlen
@@ -277,6 +323,18 @@ class Valmod(object):
             self.motifs.append(new_motif)
 
     def fit(self,signal):
+        """Fit VALMOD
+        
+        Parameters
+        ----------
+        signal : numpy array of shape (n_samples, )
+            The input samples (time series length).
+        
+        Returns
+        -------
+        self : object
+            Fitted estimator.
+        """
         self.signal_=signal
         self.n=self.signal_.shape[0]
         self.distance_=[]
@@ -314,11 +372,21 @@ class VALMP(object):
 
     def updateVALMPForMotifSets(self,MPnew:np.ndarray, IP:np.ndarray, wlen:int,listDP) -> None:
         """Update of VALMP
-            Args: 
-                MPnew(np.ndarray): matrix profile for the current length
-                IP(np.ndarray): index profile for the current length
-                wlen(int): current length
-                """
+        
+        Parameters
+        ----------
+        MPnew : np.ndarray 
+            Matrix profile for the current length
+        IP : np.ndarray
+            Index profile for the current length
+        wlen : int
+            Current length
+
+        Returns
+        -------
+        bestKpairs : array of Pair
+            Array containing the best motif pairs.
+        """
         lNormDist = MPnew / np.sqrt(wlen)
         for i in range(self.nDP):
             if lNormDist[i] < self.normDistances[i]:

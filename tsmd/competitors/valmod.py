@@ -50,6 +50,7 @@ class Valmod(object):
         LB: np.ndarray
             Lower bounds array
         """
+        
         wlen=self.wlens_[idx]
         next_nDP=self.n-wlen
         next_non_overlap_mask=np.arange(max(0,i-wlen), min(next_nDP,i+wlen+1))
@@ -87,6 +88,7 @@ class Valmod(object):
                 -the corresponding LB
                 -the corresponding dot_products
         """
+        
         wlen=self.wlens_[idx]
         nDP=self.n-wlen+1
         MP=np.zeros(nDP)
@@ -128,7 +130,6 @@ class Valmod(object):
 
 
     def updateDistAndLB(self, idx:int, i:int, j:int,dot_product:np.ndarray, LB:np.ndarray)-> tuple:
-        #should be vectorized to be more efficient
         """Update the distance and lowerbound for the sequences i and j from a length to the next one 
             
         Parameters
@@ -151,6 +152,7 @@ class Valmod(object):
         new_LB : np.ndarray
             Updated LB for len l+k
         """
+        
         wlen=self.wlens_[idx]
         newlen=wlen+1
         new_dot_product=dot_product+self.signal_[i+newlen-1]*self.signal_[j+newlen-1]
@@ -168,7 +170,7 @@ class Valmod(object):
         return new_dist, new_LB, new_dot_product
  
     def ComputeSubMP(self,idx:int)->tuple:
-        """ Compute the SubMatrixProfile from the profile of len l to the profile of len l+1
+        """Compute the SubMatrixProfile from the profile of len l to the profile of len l+1
             
         Parameters
         ----------
@@ -184,6 +186,7 @@ class Valmod(object):
         IP : np.ndarray 
             SubIndexProfile
         """
+        
         wlen=self.wlens_[idx]
         next_nDP=self.n-wlen
         SubMP=np.zeros(next_nDP)
@@ -246,8 +249,7 @@ class Valmod(object):
 
         
     def Valmod(self):
-        """
-        Compute the Variable length matrix profile (VALMP)
+        """Compute the Variable length matrix profile (VALMP)
         """
 
         MP, IP, self.listDP = self.ComputeMatrixProfile(0)
@@ -290,19 +292,19 @@ class Valmod(object):
             r = self.radius_factor * pair.distance
             #maxLB1= max(pair.partDP1.distance)
             #maxLB2= max(pair.partDP2.distance)
-            '''if maxLB1 > r:
-                print('1')
-                idxs_to_keep_1=pair.partDP1.idxs[pair.partDP1.distance<=r]
-            else:'''
+            #if maxLB1 > r:
+            #    print('1')
+            #    idxs_to_keep_1=pair.partDP1.idxs[pair.partDP1.distance<=r]
+            #else:
             l_idx=np.where(self.wlens_==pair.wlen)[0][0]
             line=self.distance_[l_idx].first_line(pair.off1)
             #we normalize the line
             line/=np.sqrt(pair.wlen)
             idxs_to_keep_1=np.where(line<=r)[0]
-            '''if maxLB2 > r:
-                print('2')
-                idxs_to_keep_2=pair.partDP2.idxs[pair.partDP2.distance<=r]
-            else:'''
+            #if maxLB2 > r:
+            #    print('2')
+            #    idxs_to_keep_2=pair.partDP2.idxs[pair.partDP2.distance<=r]
+            #else:
             l_idx=np.where(self.wlens_==pair.wlen)[0][0]
             line=self.distance_[l_idx].first_line(pair.off2)
             idxs_to_keep_2=np.where(line<=r)[0]
@@ -335,6 +337,7 @@ class Valmod(object):
         self : object
             Fitted estimator.
         """
+        
         self.signal_=signal
         self.n=self.signal_.shape[0]
         self.distance_=[]
@@ -363,6 +366,7 @@ class VALMP(object):
         """Initialization
             Args: nDP = initial number of subsequences
         """
+        
         self.nDP = nDP
         self.distances = np.inf * np.ones(self.nDP)
         self.normDistances = np.inf * np.ones(self.nDP)
@@ -387,6 +391,7 @@ class VALMP(object):
         bestKpairs : array of Pair
             Array containing the best motif pairs.
         """
+        
         lNormDist = MPnew / np.sqrt(wlen)
         for i in range(self.nDP):
             if lNormDist[i] < self.normDistances[i]:

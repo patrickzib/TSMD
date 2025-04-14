@@ -7,26 +7,29 @@ class Valmod(object):
     Parameters
     ----------
     n_patterns : int 
-        Number of neighbors.
+        Number of patterns to detect.
     min_wlen : int 
         Minimum window length.
     max_wlen : int
         Maximum window length.
     p : int, optional (default=20) 
         Minimal number of distances computed in any cases.
-    distance_name : str, optional, default="NormalizedEuclidean"
+    radius_ratio: float, optional (default=3)
+        Threshold scaling factor for pattern inclusion. (Given a Motif Pair with distance d, the threshold is equal to radius_ratio*d)
+    distance_name : str, optional, default="UnitEuclidean"
         Name of the distance.
     distance_params : dict, optional (default=dict())
-        Additional distance parameters. Defaults to dict().
+        Additional distance parameters.
 
     Attributes
     ----------
-    motifs : list containing n_patterns lists
-        List containing lists of occurrences for each of the n_patterns motifs identified. 
-        Each occurrence is (start, end), with start and end being the starting and ending index in the time series, respectively.  
+
+    prediction_mask_ : A binary mask of shape (n_patterns, n_samples) indicating the presence of motifs across the signal.
+    Each row corresponds to one discovered motif, and each column to a time step.
+    A value of 1 means the motif is present at that time step, and 0 means it is not.
     """
     
-    def __init__(self,n_patterns:int, min_wlen:int, max_wlen:int, p=20, radius_ratio=3, distance_name="NormalizedEuclidean", distance_params =dict())-> None:
+    def __init__(self,n_patterns:int, min_wlen:int, max_wlen:int, p=20, radius_ratio=3, distance_name="UnitEuclidean", distance_params =dict())-> None:
         
         self.n_patterns = n_patterns
         self.min_wlen = min_wlen
@@ -37,18 +40,20 @@ class Valmod(object):
         self.distance_params = distance_params
 
     def CompLB(self,idx:int,i:int)->np.ndarray:
-        """Compute the LowerBound of the distance between Ti,l+1 and Tj,l+1 for all j
+        """Computes the lower bound of the distance between subsequence T[i, l+1] and all other subsequences T[j, l+1],
+    for a given window length index.
 
         Parameters
         ----------
         idx: int
-            window length index.
+            Index of the window length (in self.wlens_).
         i : int 
-            considered subsequence.
+            Index of the target subsequence.
         Returns
         -------
         LB: np.ndarray
-            Lower bounds array.
+            A 1D array containing the lower bounds of the distances between T[i, l+1]
+        and each other valid subsequence, with `np.inf` for overlapping regions.
         """
         
         wlen=self.wlens_[idx]
@@ -69,27 +74,26 @@ class Valmod(object):
         return LB
     
     def ComputeMatrixProfile(self,idx:int)-> tuple:
-        """Compute the Matrix Profile and the LowerBound for the length corresponding to idx
-            
+        """Computes the Matrix Profile and Lower Bound information for a given window length index.
+
         Parameters
         ----------
         idx : int
-            window length index.
+            Index of the window length to use (in `self.wlens_`).
+
         
         Returns
         -------
         MP : np.ndarray 
-            MatrixProfile.
+            The Matrix Profile, containing the minimal distances for each subsequence.
         IP : np.ndarray 
-            Index Profile.
+            The Index Profile, containing the indices of the nearest neighbors.
         listDP : list of np.ndarray 
-            List containing for each i the successive informations:
-            
-            - the indexes of the p minimum Dij.
-            - the corresponding distances.
-            - the corresponding LB.
-            - the corresponding dot_products.
-                
+            A list of `DP` objects (or named tuples) for each subsequence, each containing:
+            - `idx_sort` (np.ndarray): Indices of the p smallest distances.
+            - `trunc_dist` (np.ndarray): Corresponding distances.
+            - `trunc_LB` (np.ndarray): Corresponding lower bounds.
+            - `trunc_dot_prod` (np.ndarray): Corresponding dot products.      
         """
         
         wlen=self.wlens_[idx]
@@ -133,27 +137,35 @@ class Valmod(object):
 
 
     def updateDistAndLB(self, idx:int, i:int, j:int,dot_product:np.ndarray, LB:np.ndarray)-> tuple:
-        """Update the distance and lowerbound for the sequences i and j from a length to the next one 
+        """Updates the distance and lower bound between two subsequences when increasing the window length.
+
+        This method is used to incrementally compute the distance `D[i,j]` and the lower bound `LB[i,j]`
+        for a longer window (length `l+1`) based on the values computed at length `l`.
+        It also updates the dot product accordingly.
+
             
         Parameters
         ----------
         idx : int 
-            Window length index.
+            Index of the current window length in `self.wlens_`.
         i : int 
-            Offset of the first subsequence (the one for which we don't know Ti,l+k).
+            Index of the first subsequence (unknown `T[i, l+1]`).        
         j : int 
-            Offset of the second subsequence (the one for which we know Tj,l+k).
+            Index of the second subsequence (known `T[j, l+1]`).
         dot_product : np.ndarray 
-            dot product QTi,j for len wlen.
+            Dot product between subsequences at length `l`.
         LB : np.ndarray
-            lower bound of Di,j for len l.
+            Lower bound between subsequences at length `l`.
             
         Returns
         -------
         new_distance : np.ndarray 
-            Updated Di,j for len l+k.
+            Updated distance between `T[i, l+1]` and `T[j, l+1]`.
         new_LB : np.ndarray
-            Updated LB for len l+k.
+            Updated lower bound values. 
+        new_dot_product : np.ndarray 
+            Updated dot product for window length `l+1`.
+        
         """
         
         wlen=self.wlens_[idx]
@@ -173,21 +185,23 @@ class Valmod(object):
         return new_dist, new_LB, new_dot_product
  
     def ComputeSubMP(self,idx:int)->tuple:
-        """Compute the SubMatrixProfile from the profile of len l to the profile of len l+1
+        """Compute the SubMatrixProfile of window length `l+1` based on the current profile of length `l`.
             
         Parameters
         ----------
         idx : int 
-            Window length index.
+            Index of the current window length in `self.wlens_`.
                 
         Returns
         -------
         bBestM : Bool
-            Indicate if the subMP is sufficient to obtain the whole MatrixProfile.
+            True if the SubMatrixProfile is sufficient to reconstruct the full MatrixProfile of length `l+1`, 
+            False otherwise (i.e., additional distances need to be computed).
         SubMP : np.ndarray 
-            SubMatrixProfile.
+            The computed SubMatrixProfile.
         IP : np.ndarray 
-            SubIndexProfile.
+            The index profile associated with `SubMP`. Each entry corresponds to the index of the best match 
+            (i.e., the subsequence with the minimum distance).
         """
         
         wlen=self.wlens_[idx]

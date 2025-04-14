@@ -5,18 +5,33 @@ import warnings
 warnings.filterwarnings('ignore')
 
 class LatentMotif(object): 
-    """LatentMotif algorithms that addresses a variant of the K-Motifs problem as a constrained optimization task, where the center of the motif is learned.
+    """SetFinder algorithm for motif discovery.
 
-    Args:
-        n_patterns (int): number of patterns
-        wlen (int): window length 
-        radius (float): cluster radius
-        alpha (float, optional): regularization parameter. Defaults to 1.0.
-        learning_rate (float, optional): learning rate. Defaults to 0.1.
-        n_iterations (int, optional): number of gradient iteration. Defaults to 100.
-        n_strats (int, optional): number of trials. Defaults to 10.
-        verbose (bool, optional): verbose. Defaults to False.
+    Parameters
+    ----------
+    n_patterns : int 
+        Number of patterns to detect.
+    radius : float
+        Threshold factor for pattern inclusion.
+    wlen : int
+        Window length.
+    alpha : float, optional (default=1.0)
+        Regularization parameter.
+    learning_rate : float, optional (default=0.1)
+        Learning rate. 
+    n_iterations :int, optional (default=100): 
+        Number of gradient iteration.
+    n_starts : int, optional (default=10): 
+        Number of trials. 
+    verbose : bool, optional (default=False) : 
+        Verbose. 
+    Attributes
+    ----------
+    prediction_mask_ : A binary mask of shape (n_patterns, n_samples) indicating the presence of motifs across the signal.
+    Each row corresponds to one discovered motif, and each column to a time step.
+    A value of 1 means the motif is present at that time step, and 0 means it is not.
     """
+        
     
     def __init__(self,n_patterns:int,wlen:int,radius:float,alpha = 1.0,learning_rate =0.1,n_iterations = 100, n_starts = 1, verbose = False) -> None:
     
@@ -30,13 +45,17 @@ class LatentMotif(object):
         self.verbose = verbose
 
     def _freq(self, patterns:np.ndarray)->float: #verified
-        """Frequence score
+        """Compute the frequency score of the given patterns.
 
-        Args:
-            patterns (np.ndarray): patterns, shape(n_patterns, wlen)
+        Parameters
+        ----------
+        patterns : np.ndarray 
+            Array of shape (n_patterns, wlen) representing the patterns.
 
-        Returns:
-            float: frequence score
+        Returns
+        -------
+        freq : float
+            Frequency score. Measures the similarity of the given patterns to the internal set.
         """
         dist = np.sum((self.set_[:,np.newaxis,:] - patterns[np.newaxis,...])**2,axis=2)
         exp_dist = np.exp(-self.alpha/self.radius * dist)
@@ -44,13 +63,17 @@ class LatentMotif(object):
         return freq
 
     def _pen(self, patterns): #verified 
-        """penalty score
+        """Compute a penalty score between patterns.
 
-        Args:
-            patterns (np.ndarray): patterns, shape(n_patterns, wlen)
+        Parameters
+        ----------
+        patterns : np.ndarray 
+            Array of shape (n_patterns, wlen) representing the patterns.
 
-        Returns:
-            float: penalty score
+        Returns
+        -------
+        pen : float
+            Penalty score. 
         """
         if self.n_patterns>1:
             dist = np.sum((patterns[:,np.newaxis,:] - patterns[np.newaxis,...])**2,axis=2)
@@ -61,25 +84,34 @@ class LatentMotif(object):
         return pen  
 
     def _score(self,patterns): #verified
-        """Score
+        """Compute the overall score for the given patterns.
+        The score is defined as the frequency minus the penalty.
 
-        Args:
-            patterns (np.ndarray): patterns, shape(n_patterns, wlen)
+        Parameters
+        ----------
+        patterns : np.ndarray 
+            Array of shape (n_patterns, wlen) representing the patterns.
 
-        Returns:
-            float: Score
+        Returns
+        -------
+        score: float 
+            Overall score
         """
         return self._freq(patterns) - self._pen(patterns)
 
 
     def _freq_derivative(self, patterns): 
-        """Frequence deriavative
+        """Compute the derivative of the frequency score with respect to the patterns.
 
-        Args:
-            patterns (np.ndarray): patterns, shape(n_patterns, wlen)
+        Parameters
+        ----------
+        patterns : np.ndarray 
+            Array of shape (n_patterns, wlen) representing the patterns.
 
-        Returns:
-            float: frequence derivative
+        Returns
+        -------
+        div_freq : float
+            Frequency score derivative
         """
         diff = self.set_[:,np.newaxis,:] - patterns[np.newaxis,...]
         exp_dist = np.exp(-self.alpha/self.radius * np.sum(diff**2,axis=2))
@@ -87,13 +119,17 @@ class LatentMotif(object):
         return div_freq
 
     def _pen_derivative(self, patterns): 
-        """Frequence derivative
+        """Compute the derivative of the penalty score with respect to the patterns.
 
-        Args:
-            patterns (np.ndarray): patterns, shape(n_patterns, wlen)
+        Parameters
+        ----------
+        patterns : np.ndarray 
+            Array of shape (n_patterns, wlen) representing the patterns.
 
-        Returns:
-            float: frequence derivative
+        Returns
+        -------
+        div_pen : float
+            Penalty score derivative
         """
         diff = patterns[:,np.newaxis,:] - patterns[np.newaxis,...]
         dist = np.sum(diff**2, axis =2)
@@ -103,12 +139,18 @@ class LatentMotif(object):
         
 
     def fit(self,signal:np.ndarray)->None:
-        """Fit LatentMotif algorithm
-
-        Args:
-            signal (np.ndarray): signal, shape: (L,)
+        """Fit LatentMotif
+        
+        Parameters
+        ----------
+        signal : numpy array of shape (n_samples, )
+            The input samples (time series length).
+        
+        Returns
+        -------
+        self : object
+            Fitted estimator.
         """
-
         #initialization 
         self.signal_ = signal
         self.set_ = np.lib.stride_tricks.sliding_window_view(signal,self.wlen)
@@ -133,11 +175,6 @@ class LatentMotif(object):
         return self
     
     def one_fit_(self):
-        """One learning trial
-
-        Returns:
-            np.ndarray, float: patterns, score
-        """
 
         patterns = np.random.randn(self.n_patterns, self.wlen)
         rate_adapt = np.zeros((self.n_patterns, self.wlen))
@@ -158,11 +195,6 @@ class LatentMotif(object):
 
     @property
     def prediction_mask_(self)->np.ndarray: 
-        """Create prediction mask
-
-        Returns:
-            np.ndarray: prediction mask, shape (n_patterns, L-wlen+1)
-        """
         dist = np.sum((self.set_[:,np.newaxis,:] - self.patterns_[np.newaxis,...])**2,axis=2)
         idx_lsts = []
         for line in dist.T: 

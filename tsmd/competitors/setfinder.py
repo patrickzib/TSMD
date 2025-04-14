@@ -8,17 +8,31 @@ import warnings
 warnings.filterwarnings('ignore')
 
 class Baseline(object): 
+    """SetFinder algorithm for motif discovery.
 
-    def __init__(self,n_patterns:int,radius:int,wlen:int,distance_name:str,distance_params = dict(),n_jobs = 1) -> None:
-        """KNN initialization
+    Parameters
+    ----------
+    n_patterns : int 
+        Number of patterns to detect.
+    radius : float
+        Threshold factor for pattern inclusion.
+    wlen : int
+        Window length.
+    distance_name : str, optional, default="UnitEuclidean"
+        Name of the distance.
+    distance_params : dict, optional (default=dict())
+        Additional distance parameters. 
+    n_jobs : int, optional (default=1)
+        Number of jobs.
+    Attributes
+    ----------
+    prediction_mask_ : A binary mask of shape (n_patterns, n_samples) indicating the presence of motifs across the signal.
+    Each row corresponds to one discovered motif, and each column to a time step.
+    A value of 1 means the motif is present at that time step, and 0 means it is not.
+    """
 
-        Args:
-            n_neighbors (int): Number of neighbors
-            wlen (int): Window length
-            distance_name (str): name of the distance
-            distance_params (_type_, optional): additional distance parameters. Defaults to dict().
-            n_jobs (int, optional): number of processes. Defaults to 1.
-        """
+    def __init__(self,n_patterns:int, radius:int, wlen:int, distance_name:str = "UnitEuclidean", distance_params = dict(), n_jobs = 1) -> None:
+
         self.n_patterns = n_patterns
         self.radius = radius
         self.wlen = wlen
@@ -28,14 +42,21 @@ class Baseline(object):
 
 
     def _search_neighbors(self,idx:int,line:np.ndarray)-> tuple: 
-        """Find index and distance value of the non overlapping nearest neighbors under a radius.
+        """Find the indices and distances of non-overlapping neighbors under the radius threshold.
 
-        Args:
-            idx (int): index of the considerded line in the crossdistance matrix
-            line (np.ndarray): line of the crossdistance matrix. shape: (n_sample,)
+        Parameters
+        ----------
+        idx : int
+            Index of the current line in the cross-distance matrix.
+        line : np.ndarray
+            A single line of the cross-distance matrix of shape (n_samples,).
 
-        Returns:
-            tuple: neighbor index np.ndarray, neighbor distance np.ndarray
+        Returns
+        -------
+        neighbors: np.ndarray
+            Indices of neighboring subsequences satisfying the radius condition.
+        dists: np.ndarray
+            Corresponding distances to those neighbors.
         """
 
         #initilization
@@ -66,14 +87,21 @@ class Baseline(object):
         return neighbors,dists
     
     def _elementary_neighborhood(self,start:int,end:int)->tuple:
-        """Find elementary neighborhood of a chunk of successive lines of the crossdistance matrix
+        """Compute neighborhoods for a chunk of lines from the cross-distance matrix.
 
-        Args:
-            start (int): chunk start
-            end (int): chunck end
+        Parameters
+        ----------
+        start : int
+            Starting index of the chunk.
+        end : int
+            Ending index of the chunk (exclusive).
 
-        Returns:
-            tuple: neighborhood count, neighborhood std
+        Returns
+        -------
+        neighbors: list of np.ndarray 
+            Indices of neighbors for each line in the chunk.
+        dists: list of np.ndarray 
+            Corresponding distances for each neighbor set.
         """
         #initialization
         neighbors =[]
@@ -89,10 +117,21 @@ class Baseline(object):
             t_neighbors,t_dists = self._search_neighbors(i,line)
             neighbors.append(t_neighbors)
             dists.append(t_dists)
+
         return neighbors,dists
 
     def neighborhood_(self)->None: 
+        
+        """Compute neighborhoods for all subsequences using parallel computation.
 
+            This method divides the task into chunks based on `n_jobs`, and collects
+            the neighborhood indices and distances for each subsequence.
+
+            Returns
+            -------
+            self : Baseline
+                The updated Baseline instance with `idxs_` and `dists_` attributes set.
+    """
         #divide the signal accordingly to the number of jobs
         set_idxs = np.linspace(0,self.mdim_,self.n_jobs+1,dtype=int)
         set_idxs = np.vstack((set_idxs[:-1],set_idxs[1:])).T
@@ -108,9 +147,11 @@ class Baseline(object):
         return self
 
     def find_patterns_(self): 
+        """Identify the most representative motifs based on neighbor counts and distance variability.
+        """
+        
 
         self.counts_ = np.array([len(lst) for lst in self.idxs_])
-        stds = []
         stds = []
         for lst in self.dists_: 
             if len(lst)>0: 
@@ -132,10 +173,17 @@ class Baseline(object):
         self.patterns_ = patterns
 
     def fit(self,signal:np.ndarray)->None:
-        """Compute the best patterns
-
-        Args:
-            signal (np.ndarray): Univariate time-series, shape: (L,)
+        """Fit SetFinder
+        
+        Parameters
+        ----------
+        signal : numpy array of shape (n_samples, )
+            The input samples (time series length).
+        
+        Returns
+        -------
+        self : object
+            Fitted estimator.
         """
         
         #initialisation
@@ -153,11 +201,6 @@ class Baseline(object):
 
     @property
     def prediction_mask_(self)->np.ndarray:
-        """Create prediction mask
-
-        Returns:
-            np.ndarray: prediction mask, shape (n_patterns, L-wlen+1)
-        """
         mask = np.zeros((self.n_patterns,self.signal_.shape[0]))
         for i,p_idx in enumerate(self.patterns_):
             mask[i,p_idx:p_idx+self.wlen] =1

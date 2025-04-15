@@ -8,19 +8,29 @@ import warnings
 warnings.filterwarnings('ignore')
 
 class Grammarviz(object): 
+    """Grammarviz algorithm for motif discovery.
 
+        Parameters
+        ----------
+        n_patterns : int 
+            Number of patterns.
+        alphabet_size : int, optional (default=5)
+            Alphabet size for the discretization of the time series.
+        numerosity : str, optional (default to "MINDIST")
+            Numerosity reduction type.
+        window_size : int, optional (default=30)
+            Window_size.
+        word_size : int, optional (default=10)
+            Word size.
+        Attributes
+        ----------
+        prediction_mask_ : np.ndarray of shape (n_patterns, n_samples)
+            Binary mask indicating the presence of motifs across the signal.  
+            Each row corresponds to one discovered motif, and each column to a time step.  
+            A value of 1 means the motif is present at that time step, and 0 means it is not.
+            """
     def __init__(self,n_patterns:int,alphabet_size=5,numerosity="MINDIST",window_size = 30,word_size = 10,folder_java = "./competitors/competitors_tools/grammarviz",file_exchange_location="target/file_exchange") -> None:
-        """_summary_
-
-        Args:
-            n_cluster (int): number of cluster
-            alphabet_size (int, optional): alphabet size. Defaults to 4.
-            numerosity (str, optional): numerosity reduction type. Defaults to "MINDIST".
-            window_size (int, optional): window size. Defaults to 30.
-            word_size (int, optional): word size. Defaults to 6.
-            folder_java (str, optional): path to grammarviz java folder. Defaults to "/Users/tgermain/Documents/code/GrammarViz/grammarviz2_src".
-            file_exchange_location (str, optional): path to the exchange files folder. Defaults to "target/file_exchange".
-        """
+        
         self.n_cluster = n_patterns
         self.alphabet_size = alphabet_size
         self.numerosity = numerosity
@@ -30,11 +40,17 @@ class Grammarviz(object):
         self.file_exchange_location = Path(file_exchange_location)
 
     def fit(self,signal:np.ndarray)->None:
-        """fit siganl
-
-        Args:
-            signal (np.ndarray): signal, shape: (n_ts,)
-
+        """Fit Grammarviz
+        
+        Parameters
+        ----------
+        signal : numpy array of shape (n_samples, )
+            The input samples (time series length).
+        
+        Returns
+        -------
+        self : object
+            Fitted estimator.
         """
         self.signal_length = signal.shape[0]
         #prepare data

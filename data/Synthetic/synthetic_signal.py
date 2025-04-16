@@ -93,10 +93,10 @@ class SignalGenerator(object):
     motif_fundamental : int, optional (default=1)
         Number of fundamental components used to construct the base motifs.
         A higher number results in more complex patterns.       
-    motif_type : {'Sin', 'Cubic'}, optional (default='Sin')
+    motif_type : {'Sin', 'Cubic'}, optional, default="Sin"
         Type of motif to generate. 
-        - 'Sin': sinusoidal like patterns.
-        - 'Cubic': piecewise cubic patterns.
+        - "Sin": sinusoidal like patterns.
+        - "Cubic": piecewise cubic patterns.
     noise_amplitude : float, optional(default=0.1) 
         Noise amplitude. The noise is gaussian of standard deviation `noise_amplitude`.
     n_novelties : int, optional (default=0)
@@ -296,7 +296,7 @@ class SignalGenerator(object):
         
         Parameters
         ----------
-        color_palette : str, optional (default='Plotly')
+        color_palette : str, optional, default="Plotly"
             Color palette name from plotly.colors.qualitative. 
         Raises :
             Exception: Not enough color for the number of patterns.

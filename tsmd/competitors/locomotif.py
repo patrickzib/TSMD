@@ -22,6 +22,7 @@ class LocoMotif:
         Mask for the ending time points of representative motifs, where True means allowed. If None, all points are allowed.
     warping : bool, optional (default=True)
         Whether warping is allowed (True) or not (False).
+    
     Attributes
     ----------
     prediction_mask_ : np.ndarray of shape (n_patterns, n_samples)

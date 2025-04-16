@@ -34,7 +34,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 autodoc_mock_imports = ['joblib','six','matplotlib','pandas','arch','tsfresh'
     'hurst','tslearn','cython','scikit-learn','tqdm','scipy',
-    'sklearn','stumpy','tensorflow','networkx']
+    'sklearn','stumpy','tensorflow','networkx','plotly','numba']
 
 
 # -- Options for HTML output -------------------------------------------------

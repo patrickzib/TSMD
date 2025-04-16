@@ -1,14 +1,9 @@
 import time
 
-import matplotlib
 import numpy as np
 from scipy.stats import zscore
 
 import tsmd.competitors.competitors_tools.motiflets_tools as ml
-
-matplotlib.rcParams['pdf.fonttype'] = 42
-matplotlib.rcParams['ps.fonttype'] = 42
-
 
 class Motiflets:
     """k-Motiflets algorithm for motif discovery.

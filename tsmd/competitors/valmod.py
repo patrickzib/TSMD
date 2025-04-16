@@ -45,13 +45,13 @@ class Valmod(object):
         Parameters
         ----------
         idx : int
-            Index of the window length (in self.wlens_).
+            Index of the window length (in `self.wlens_`).
         i : int 
             Index of the target subsequence.
         
         Returns
         -------
-        LB: np.ndarray
+        LB : np.ndarray
             A 1D array containing the lower bounds of the distances between T[i, l+1] and each other valid subsequence, with `np.inf` for overlapping regions.
         """
         

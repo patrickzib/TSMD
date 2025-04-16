@@ -40,8 +40,7 @@ class Valmod(object):
         self.distance_params = distance_params
 
     def CompLB(self,idx:int,i:int)->np.ndarray:
-        """Computes the lower bound of the distance between subsequence T[i, l+1] and all other subsequences T[j, l+1],
-    for a given window length index.
+        """Computes the lower bound of the distance between subsequence T[i, l+1] and all other subsequences T[j, l+1], for a given window length index.
 
         Parameters
         ----------
@@ -49,11 +48,11 @@ class Valmod(object):
             Index of the window length (in self.wlens_).
         i : int 
             Index of the target subsequence.
+        
         Returns
         -------
         LB: np.ndarray
-            A 1D array containing the lower bounds of the distances between T[i, l+1]
-        and each other valid subsequence, with `np.inf` for overlapping regions.
+            A 1D array containing the lower bounds of the distances between T[i, l+1] and each other valid subsequence, with `np.inf` for overlapping regions.
         """
         
         wlen=self.wlens_[idx]
@@ -80,7 +79,6 @@ class Valmod(object):
         ----------
         idx : int
             Index of the window length to use (in `self.wlens_`).
-
         
         Returns
         -------

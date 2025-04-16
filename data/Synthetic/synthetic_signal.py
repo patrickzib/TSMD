@@ -292,7 +292,8 @@ class SignalGenerator(object):
         return self.signal_,self.labels_
 
     def plot(self, color_palette = 'Plotly'): 
-        """
+        """ Plot the generated signal
+        
         Parameters
         ----------
         color_palette : str, optional (default='Plotly')

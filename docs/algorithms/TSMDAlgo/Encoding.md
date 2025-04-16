@@ -54,6 +54,12 @@ plot_signal_pattern(signal,labels)
 
 The LoCoMotif method [Wesenbeeck et al. 2024] addresses the challenge of variable length by searching for time-warped motifs at potentially different time scales within a time series. The process begins with the LoCo step, where the Self-Similarity Matrix of the time series is utilized to construct paths based on a principle similar to Dynamic Time Warping (DTW). The paths with the highest accumulated similarity in this matrix are identified. In the second step, these subpaths are grouped to create candidate Motifs. The method then assesses the encoding capacity of these candidates using a quality score that combines the similarity between occurrences with the overall coverage of the Motif set.
 
+```{eval-rst}  
+.. autoclass:: tsmd.competitors.locomotif.LocoMotif
+    :members:
+
+```
+
 ### Usage
 
 ```python

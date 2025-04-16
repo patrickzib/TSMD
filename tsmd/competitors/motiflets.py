@@ -14,26 +14,27 @@ class Motiflets:
     """k-Motiflets algorithm for motif discovery.
 
     Parameters
-        ----------
-        k_max : int 
-            Maximum number of occurences of a single motif.
-        min_wlen : int
-            Minimium window length.
-        max_wlen : int 
-            Maximum window length.
-        elbow_deviation : float, optional (default=1.0)
-            The minimal absolute deviation needed to detect an elbow.
-            It measures the absolute change in deviation from k to k+1.
-            1.05 corresponds to 5% increase in deviation.
-        slack : float, optional (default=0.5)
-            Defines an exclusion zone around each subsequence to avoid trivial matches.
-            Defined as percentage of m. E.g. 0.5 is equal to half the window length.
-        Attributes
-        ----------
-        prediction_mask_ : np.ndarray of shape (n_patterns, n_samples)
-            Binary mask indicating the presence of motifs across the signal.  
-            Each row corresponds to one discovered motif, and each column to a time step.  
-            A value of 1 means the motif is present at that time step, and 0 means it is not.
+    ----------
+    k_max : int 
+        Maximum number of occurences of a single motif.
+    min_wlen : int
+        Minimium window length.
+    max_wlen : int 
+        Maximum window length.
+    elbow_deviation : float, optional (default=1.0)
+        The minimal absolute deviation needed to detect an elbow.
+        It measures the absolute change in deviation from k to k+1.
+        1.05 corresponds to 5% increase in deviation.
+    slack : float, optional (default=0.5)
+        Defines an exclusion zone around each subsequence to avoid trivial matches.
+        Defined as percentage of m. E.g. 0.5 is equal to half the window length.
+    
+    Attributes
+    ----------
+    prediction_mask_ : np.ndarray of shape (n_patterns, n_samples)
+        Binary mask indicating the presence of motifs across the signal.  
+        Each row corresponds to one discovered motif, and each column to a time step.  
+        A value of 1 means the motif is present at that time step, and 0 means it is not.
         """
     def __init__(
             self,

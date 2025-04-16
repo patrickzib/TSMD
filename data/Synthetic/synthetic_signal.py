@@ -79,72 +79,73 @@ class SignalGenerator(object):
     """Synthetic signal generator.
 
     Parameters
-        ----------
-        n_motifs : int 
-            Number of different motifs.
-        motif_length : int or list of int, default=100
-            Length(s) of the motifs to be generated.
-            If an int is provided, it is interpreted as a constant length 
-            used for all motifs (i.e., a list of length `n_motifs` filled with this value).
-            If a list is provided, it should contain exactly `n_motifs` elements, 
-            where each value specifies the length of a motif.
-        motif_amplitude : float, optional (default = 1.0) 
-            Base motifs amplitude.
-        motif_fundamental : int, optional (default=1)
-            Number of fundamental components used to construct the base motifs.
-            A higher number results in more complex patterns.       
-        motif_type: {'Sin', 'Cubic'}, optional (default='Sin')
-            Type of motif to generate. 
-            - 'Sin': sinusoidal like patterns.
-            - 'Cubic': piecewise cubic patterns.
-        noise_amplitude : float, optional(default=0.1) 
-            Noise amplitude. The noise is gaussian of standard deviation `noise_amplitude`.
-        n_novelties : int, optional (default=0)
-            Number of novelties (i.e. motifs with only one occurence).
-        length_fluctuation : float, optional (default=0.0)
-            Percentage of fluctuation allowed in motif lengths, between 0.0 and 0.9.
-            For each occurence, the actual motif length will be randomly chosen in the range 
-            [`motif_length * (1 - length_fluctuation)`, `motif_length * (1 + length_fluctuation)`].
-        amplitude_fluctuation : float, optional (default=0.0)
-            Percentage of fluctuation allowed in motif amplitudes, between 0.0 and 0.9.
-            For each occurence, the actual motif amplitude will be randomly chosen in the range 
-            [`motif_amplitude * (1 - motif_fluctuation)`, `motif_amplitude * (1 + amplitude_fluctuation)`].
-        sparsity : float, optional (default=0.2)
-            Controls the spacing between motif occurrences, i.e., the proportion of motifless area between them.  
-            The gap between motif occurences is set to `motif_length * sparsity`.
-        sparsity_fluctuation : float, optional (default=0.0)
-            Percentage of fluctuation allowed in the spacing between motif occurrences, between 0.0 and 0.9.  
-            For each occurrence, the actual spacing will be randomly chosen in the range  
-            [`motif_length * sparsity * (1 - sparsity_fluctuation)`, `motif_length * sparsity * (1 + sparsity_fluctuation)`].
-        walk_amplitude : float,optional (default=0.0) 
-            Amplitude of the random walk component.  
-            The random walk is generated as the cumulative sum of a Gaussian noise process  
-            with standard deviation equal to `walk_amplitude`.
-        min_rep : int, optional (default=2)
-            Minimum number of occurrences for each motif.  
-            For each motif, the actual number of repetitions is randomly chosen in the range  
-            [`min_rep`, `max_rep`].
-        max_rep : int, optional (default=5)
-            Maximum number of occurrences for each motif.  
-            Used together with `min_rep` to define the range of possible repetitions per motif.
-        exact_occurences : list of int, optional (default is None)
-            Specifies the exact number of occurrences for each motif.  
-            If provided, it must be a list of length `n_motifs`, where each value defines  
-            the exact number of times the corresponding motif should appear.  
-            This overrides the `min_rep` and `max_rep` parameters.
-        exact_ts_length : int, optional (default is None) 
-            If set, defines the exact total length of the generated time series.  
-            Additional sparsity (i.e., motifless areas) will be uniformly added between motif occurrences  
-            to match this target length.  
-            If the base generated series (before adjustment) exceeds this value, an error is raised.
-        Attributes
-        ----------
-        signal_ : np.ndarray of shape (n_samples,)
-            The generated signal.
-        labels_ : np.ndarray of shape (n_motifs, n_samples)
-            Binary mask indicating the presence of motifs across the signal.  
-            Each row corresponds to one motif, and each column to a time step.  
-            A value of 1 means the motif is present at that time step, and 0 means it is not.
+    ----------
+    n_motifs : int 
+        Number of different motifs.
+    motif_length : int or list of int, default=100
+        Length(s) of the motifs to be generated.
+        If an int is provided, it is interpreted as a constant length 
+        used for all motifs (i.e., a list of length `n_motifs` filled with this value).
+        If a list is provided, it should contain exactly `n_motifs` elements, 
+        where each value specifies the length of a motif.
+    motif_amplitude : float, optional (default = 1.0) 
+        Base motifs amplitude.
+    motif_fundamental : int, optional (default=1)
+        Number of fundamental components used to construct the base motifs.
+        A higher number results in more complex patterns.       
+    motif_type : {'Sin', 'Cubic'}, optional (default='Sin')
+        Type of motif to generate. 
+        - 'Sin': sinusoidal like patterns.
+        - 'Cubic': piecewise cubic patterns.
+    noise_amplitude : float, optional(default=0.1) 
+        Noise amplitude. The noise is gaussian of standard deviation `noise_amplitude`.
+    n_novelties : int, optional (default=0)
+        Number of novelties (i.e. motifs with only one occurence).
+    length_fluctuation : float, optional (default=0.0)
+        Percentage of fluctuation allowed in motif lengths, between 0.0 and 0.9.
+        For each occurence, the actual motif length will be randomly chosen in the range 
+        [`motif_length * (1 - length_fluctuation)`, `motif_length * (1 + length_fluctuation)`].
+    amplitude_fluctuation : float, optional (default=0.0)
+        Percentage of fluctuation allowed in motif amplitudes, between 0.0 and 0.9.
+        For each occurence, the actual motif amplitude will be randomly chosen in the range 
+        [`motif_amplitude * (1 - motif_fluctuation)`, `motif_amplitude * (1 + amplitude_fluctuation)`].
+    sparsity : float, optional (default=0.2)
+        Controls the spacing between motif occurrences, i.e., the proportion of motifless area between them.  
+        The gap between motif occurences is set to `motif_length * sparsity`.
+    sparsity_fluctuation : float, optional (default=0.0)
+        Percentage of fluctuation allowed in the spacing between motif occurrences, between 0.0 and 0.9.  
+        For each occurrence, the actual spacing will be randomly chosen in the range  
+        [`motif_length * sparsity * (1 - sparsity_fluctuation)`, `motif_length * sparsity * (1 + sparsity_fluctuation)`].
+    walk_amplitude : float,optional (default=0.0) 
+        Amplitude of the random walk component.  
+        The random walk is generated as the cumulative sum of a Gaussian noise process  
+        with standard deviation equal to `walk_amplitude`.
+    min_rep : int, optional (default=2)
+        Minimum number of occurrences for each motif.  
+        For each motif, the actual number of repetitions is randomly chosen in the range  
+        [`min_rep`, `max_rep`].
+    max_rep : int, optional (default=5)
+        Maximum number of occurrences for each motif.  
+        Used together with `min_rep` to define the range of possible repetitions per motif.
+    exact_occurences : list of int, optional (default is None)
+        Specifies the exact number of occurrences for each motif.  
+        If provided, it must be a list of length `n_motifs`, where each value defines  
+        the exact number of times the corresponding motif should appear.  
+        This overrides the `min_rep` and `max_rep` parameters.
+    exact_ts_length : int, optional (default is None) 
+        If set, defines the exact total length of the generated time series.  
+        Additional sparsity (i.e., motifless areas) will be uniformly added between motif occurrences  
+        to match this target length.  
+        If the base generated series (before adjustment) exceeds this value, an error is raised.
+    
+    Attributes
+    ----------
+    signal_ : np.ndarray of shape (n_samples,)
+        The generated signal.
+    labels_ : np.ndarray of shape (n_motifs, n_samples)
+        Binary mask indicating the presence of motifs across the signal.  
+        Each row corresponds to one motif, and each column to a time step.  
+        A value of 1 means the motif is present at that time step, and 0 means it is not.
         """
 
     def __init__(self,n_motifs:int,motif_length=100,motif_amplitude=1,motif_fundamental =1,motif_type ='Sin',noise_amplitude=0.1,n_novelties=0,length_fluctuation=0.,amplitude_fluctuation=0.,sparsity=0.2,sparsity_fluctuation = 0.,walk_amplitude = 0.,min_rep=2,max_rep=5,exact_occurences=None,exact_ts_length=None) -> None:
@@ -296,7 +297,7 @@ class SignalGenerator(object):
         ----------
         color_palette : str, optional (default='Plotly')
             Color palette name from plotly.colors.qualitative. 
-        Raises:
+        Raises :
             Exception: Not enough color for the number of patterns.
         """
         palette = getattr(px.colors.qualitative,color_palette)

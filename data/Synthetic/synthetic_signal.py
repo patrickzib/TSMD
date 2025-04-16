@@ -95,8 +95,10 @@ class SignalGenerator(object):
         A higher number results in more complex patterns.       
     motif_type : {'Sin', 'Cubic'}, optional, default="Sin"
         Type of motif to generate. 
+        
         - "Sin": sinusoidal like patterns.
         - "Cubic": piecewise cubic patterns.
+        
     noise_amplitude : float, optional(default=0.1) 
         Noise amplitude. The noise is gaussian of standard deviation `noise_amplitude`.
     n_novelties : int, optional (default=0)

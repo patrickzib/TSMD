@@ -26,6 +26,7 @@ class PanMatrixProfile(object):
             Additional distance parameters. 
         n_jobs : int, optional (default=1)
             Number of jobs.
+        
         Attributes
         ----------
         prediction_mask_ : np.ndarray of shape (n_patterns, n_samples)
@@ -58,9 +59,9 @@ class PanMatrixProfile(object):
 
         Returns
         -------
-        neighbors: np.ndarray
+        neighbors : np.ndarray
             Indices of neighboring subsequences satisfying the radius condition.
-        dists: np.ndarray
+        dists : np.ndarray
             Corresponding distances to those neighbors.
         """
 
@@ -103,9 +104,9 @@ class PanMatrixProfile(object):
 
         Returns
         -------
-        neighbors: list of np.ndarray 
+        neighbors : list of np.ndarray 
             Indices of neighbors for each line in the chunk.
-        dists: list of np.ndarray 
+        dists : list of np.ndarray 
             Corresponding distances for each neighbor set.
         """
         #initialization
@@ -136,14 +137,14 @@ class PanMatrixProfile(object):
         the neighborhood indices and distances for each subsequence.
         Parameters
         ----------
-        idx: int
-            Index of the window length (in self.wlens_).
+        idx : int
+            Index of the window length (in `self.wlens_`).
 
         Returns
         -------
-        dists: np.ndarray
+        dists : np.ndarray
             The Matrix Profile, containing the minimal distances for each subsequence.
-        idxs: np.ndarray 
+        idxs : np.ndarray 
             The Index Profile, containing the indices of the nearest neighbors.
         """
 
@@ -174,7 +175,7 @@ class PanMatrixProfile(object):
 
         Returns
         -------
-        mask: list 
+        mask : list 
             Mask for the search of neighbors.
         """
         t_mask = mask.copy()

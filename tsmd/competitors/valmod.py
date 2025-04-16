@@ -88,10 +88,12 @@ class Valmod(object):
             The Index Profile, containing the indices of the nearest neighbors.
         listDP : list of np.ndarray 
             A list of `DP` objects (or named tuples) for each subsequence, each containing:
+            
             - `idx_sort` (np.ndarray): Indices of the p smallest distances.
             - `trunc_dist` (np.ndarray): Corresponding distances.
             - `trunc_LB` (np.ndarray): Corresponding lower bounds.
-            - `trunc_dot_prod` (np.ndarray): Corresponding dot products.      
+            - `trunc_dot_prod` (np.ndarray): Corresponding dot products.
+            
         """
         
         wlen=self.wlens_[idx]

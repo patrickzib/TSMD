@@ -44,7 +44,7 @@ class Valmod(object):
 
         Parameters
         ----------
-        idx: int
+        idx : int
             Index of the window length (in self.wlens_).
         i : int 
             Index of the target subsequence.

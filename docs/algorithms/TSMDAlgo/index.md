@@ -28,12 +28,10 @@ We describe each algorithm in the sections below and provide code snippets on ho
 
 ```python
 from data.Synthetic.synthetic_signal import SignalGenerator
-from tsmd.tools.utils import transform_label
-from tsmd.tools.plotting import plot_signal_pattern
 
 generator=SignalGenerator(n_motifs=2, motif_length=200, motif_amplitude=3, motif_fundamental=3, sparsity=0.5, sparsity_fluctuation=0.5)
 signal,labels= generator.generate()
-plot_signal_pattern(signal,transform_label(labels))
+generator.plot()
 ```
 ![Synthetic signal](../../../assets/methodExample/signal_example.png "Synthetic signal")
 

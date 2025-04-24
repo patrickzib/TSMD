@@ -19,18 +19,17 @@ generator=SignalGenerator(n_motifs=3, motif_length=200, motif_amplitude=2, motif
 signal,labels= generator.generate()
 generator.plot()
 ```
-![Synthetic Example 1](../../../assets/tsExample/Synthetic1.png "Synthetic Example 1")
+![Synthetic Example 1](../../assets/tsExample/Synthetic1.png "Synthetic Example 1")
 
 ### Example 2 (Motifs of different average size, fixed number of occurences and total time series length)
 
 ```python
-
 generator=SignalGenerator(n_motifs=3, motif_length=[100,200,500], motif_amplitude=2, motif_fundamental=3, 
                            noise_amplitude = 0.5, length_fluctuation=0.5, 
                           amplitude_fluctuation=0.5,sparsity=0.5, sparsity_fluctuation=0.5, walk_amplitude=0.2, exact_occurences=[4,10,3],exact_ts_length=5000)
 signal,labels= generator.generate()
 generator.plot()
 ```
-![Synthetic Example 2](../../../assets/tsExample/Synthetic2.png "Synthetic Example 2")
+![Synthetic Example 2](../../assets/tsExample/Synthetic2.png "Synthetic Example 2")
 
 

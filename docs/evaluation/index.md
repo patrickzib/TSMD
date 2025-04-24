@@ -5,13 +5,13 @@
 The methods share several commons parameters. These parameters are complex to set in practice and can strongly impact performances.In order to perform a fair comparison between all methods in our benchmarks, we set the values of these parameters to their optimal values (based on the exact characteristics of the time series in our benchmark). Overall,the
 parameters are the following: 
 
-- **The number of patterns $K$**:** We set this parameter to the exact number of patterns in the time series.
-- **The maximum number of occurences $k_{\max}:$** We set this parameter to the maximum number
+- **The number of patterns $K$ :** We set this parameter to the exact number of patterns in the time series.
+- **The maximum number of occurences $k_{\max} :$** We set this parameter to the maximum number
 of occurrences of all Motifs.
--**The radius $R$:** This parameter has to be estimated for real time series. In practice, for all the occurences of a motif (the set of occurences is noted $M$), we compute $R_k = \max_{S_i,S_j\in M} \text{dist}(S_i,S_j)/2$. We use $\overbar{R}=\frac{1}{K}\sum_{i=1}^KR_K$ as the radius parameter.
--**The radius ratio $r$:** We take $r=3$ as the default value. 
--**Window length $w_{\text{len}}:** We take the average length of occurences of all motifs.
--**Minimum/Maximum length ($w_{\text{min}}/w_{\text{max}}$):** We set this parameters to the minimum and maximum length of all occurences of all motifs.
+- **The radius $R$ :** This parameter has to be estimated for real time series. In practice, for all the occurences of a motif (the set of occurences is noted $M$), we compute $R_k = \max_{S_i,S_j\in M} \text{dist}(S_i,S_j)/2$. We use $\bar{R}=\frac{1}{K}\sum_{i=1}^KR_K$ as the radius parameter.
+- **The radius ratio $r$ :** We take $r=3$ as the default value. 
+- **Window length $w_{\text{len}}$ :** We take the average length of occurences of all motifs.
+- **Minimum/Maximum length ($w_{\text{min}}/w_{\text{max}}$) :** We set this parameters to the minimum and maximum length of all occurences of all motifs.
 
 ## Evaluation Measures
 

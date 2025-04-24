@@ -11,7 +11,7 @@
 Motif Discovery consists of identifying repeated patterns and locating their occurrences in a time series without prior knowledge about their shape or location. In practice, motif discovery faces several data-related challenges which has led to numerous definitions of the motif discovery problem and algorithms partially encompassing these challenges. In this repo, we provide an exhaustive review of the literature in terms of data-related challenges, motif definitions, and algorithms. We also present an analysis of strengths and weaknesses of algorithms carefully chosen to best represent the literature spectrum. The analysis follows research questions we identified from our review. Our experimental results provide practical guidelines for selecting motif discovery algorithms suitable for the task at hand and open to new research directions. Overall, we provide implementation of the main motif discovery methods proposed in the literature and the experimental scripts to compare them in terms of accuracy and execution time.
 ## License
 
-The project is licensed under the `MIT license <https://mit-license.org>`_.
+The project is licensed under the *MIT License*: <https://mit-license.org>.
 
 If you use TSMD in your project or research, please cite the following paper:
 
@@ -21,17 +21,17 @@ If you use TSMD in your project or research, please cite the following paper:
 
 You can use the following BibTeX entries:
 
-.. code-block:: bibtex
-
-   @article{Guerrini2025tsmd,
-      title={Time Series Motif Discovery: A Comprehensive Evaluation},
-      author={Guerrini, Valerio and Germain, Thibaut and Truong, Charles and Oudre, Laurent and Boniol, Paul},
-      journal={Proceedings of the VLDB Endowment},
-      volume={18},
-      number={7},
-      year={2025},
-      publisher={VLDB Endowment}
-   }
+```bibtex
+@article{Guerrini2025tsmd,
+   title={Time Series Motif Discovery: A Comprehensive Evaluation},
+   author={Guerrini, Valerio and Germain, Thibaut and Truong, Charles and Oudre, Laurent and Boniol, Paul},
+   journal={Proceedings of the VLDB Endowment},
+   volume={18},
+   number={7},
+   year={2025},
+   publisher={VLDB Endowment}
+}
+```
 
 ## Contributors
 

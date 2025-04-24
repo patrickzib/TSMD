@@ -1,6 +1,6 @@
 # Motif Discovery Algorithms in TSMD
 
-In order to address the research questions enumerated in the previous section, we have to carefully select algorithms  from different families to best represent the diversity of Motif Discovery techniques. In total, we selected 11 Motif Discovery algorithms.
+In order to address the research questions enumerated in the previous section, we have to carefully select algorithms from different families to best represent the diversity of Motif Discovery techniques. In total, we selected 11 Motif Discovery algorithms.
 
 The following motivations drive our selection of Motif Discovery methods: 
 1. Our collection of methods should have at least one representative from each of the main families of methods we presented earlier. 

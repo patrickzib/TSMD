@@ -22,7 +22,7 @@ We evaluate performance with range based-precision, recall and f1-score metrics.
 The results of our experimental evaluation are summarized here. For more details, see the paper.
 
 ```{toctree}
-:maxdepth: 2
+:maxdepth: 3
 
 RQ1
 RQ2

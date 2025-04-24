@@ -5,6 +5,7 @@
 In this section, we evaluate the robustness of methods to a variation of the number of different motifs.
 Our evaluation is summarized in the plot below.
 
+## Summary of the results
 ![RQ3 results](../../assets/RQresults/RQ3.png "RQ3 results")
 
 

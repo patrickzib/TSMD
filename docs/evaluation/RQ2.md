@@ -1,10 +1,9 @@
 # RQ2: Scalability for long time-series
 
-** Are the methods capable of solving the problem in a reasonable amount of time for a relatively long time series ? ** 
+*Are the methods capable of solving the problem in a reasonable amount of time for a relatively long time series ?* 
 
 To answer this question, we measure the influence of the length of the time series on the execution time of the methods.
-
-Our evaluation is summerized in the plot below.
+Our evaluation is summarized in the plot below.
 
 ## Summary of the results
 

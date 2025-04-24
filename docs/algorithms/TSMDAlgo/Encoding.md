@@ -6,11 +6,23 @@ Grammarviz [Senin et al. 2018] uses grammar induction methods for motif detectio
 
 ### Usage
 
+Grammarviz is written in Java and requires a specific setup. Download it from the following GitHub: <https://github.com/GrammarViz2/grammarviz2_src>, place it in TSMD/tsmd/competitors/competitors_tools/, and follow the installation instructions in the repository. You can then use Grammarviz like any other method:
+
+
 ```python
-TODO 
+from tsmd.competitors.grammarviz import Grammarviz
+from tsmd.tools.utils import transform_label
+from tsmd.tools.plotting import plot_signal_pattern
+
+
+gm=Grammarviz(n_patterns=2)
+gm.fit(signal)
+
+labels=transform_label(gm.prediction_mask_)
+plot_signal_pattern(signal,labels)
 ```
 ```
-TODO output
+![Grammarviz output](../../../assets/methodExample/grammarviz_example.png "Grammarviz output")
 ```
 
 ### Reference

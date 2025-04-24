@@ -14,8 +14,9 @@ This section introduces the synthetic time series generator used to produce data
 from data.Synthetic.synthetic_signal import SignalGenerator
 
 generator=SignalGenerator(n_motifs=3, motif_length=200, motif_amplitude=2, motif_fundamental=3, 
-                           noise_amplitude = 0.5, length_fluctuation=0.5, 
-                          amplitude_fluctuation=0.5,sparsity=0.5, sparsity_fluctuation=0.5, walk_amplitude=0.2, min_rep=5, max_rep=10)
+                           noise_amplitude = 0.5, length_fluctuation=0.5, amplitude_fluctuation=0.5,
+                           sparsity=0.5, sparsity_fluctuation=0.5, walk_amplitude=0.2, 
+                           min_rep=5, max_rep=10)
 signal,labels= generator.generate()
 generator.plot()
 ```
@@ -25,8 +26,9 @@ generator.plot()
 
 ```python
 generator=SignalGenerator(n_motifs=3, motif_length=[100,200,500], motif_amplitude=2, motif_fundamental=3, 
-                           noise_amplitude = 0.5, length_fluctuation=0.5, 
-                          amplitude_fluctuation=0.5,sparsity=0.5, sparsity_fluctuation=0.5, walk_amplitude=0.2, exact_occurences=[4,10,3],exact_ts_length=5000)
+                        noise_amplitude = 0.5, length_fluctuation=0.5, amplitude_fluctuation=0.5,
+                        sparsity=0.5, sparsity_fluctuation=0.5, walk_amplitude=0.2, 
+                        exact_occurences=[4,10,3],exact_ts_length=5000)
 signal,labels= generator.generate()
 generator.plot()
 ```

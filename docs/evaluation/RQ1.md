@@ -27,16 +27,16 @@ Our evaluation is summarized in the table below (the empty cells correspond to m
 | **SIGN**      | fscore     | 0.06 (0.04)       | –                 | –                | 0.14 (0.09)      | –                | –                | 0.17 (0.03)      | –                | –                 | **0.20** (0.06)   | _0.10_ (0.07)     |
 |               | Exec. time | 300 (25)          | –                 | –                | _50_ (10)        | –                | –                | 900 (85)         | –                | –                 | 900 (88)         | **5** (18)        |
 
-## Critical diagram with REFIT and SIGN 
+### Critical diagram with REFIT and SIGN 
 
 ![crit_diag_w](../../assets/RQresults/crit_diag_by_ts.png "Critical diagram with REFIT and SIGN")
 
-## Critical diagram without REFIT and SIGN
+### Critical diagram without REFIT and SIGN
 
 ![crit_diag_wo](../../assets/RQresults/crit_diag_by_ts_without_refit_and_sign.png "Critical diagram without REFIT and SIGN")
 
 
-## * **RQ1 Conclusion:** 
+## RQ1 Conclusion
 
 PEPA, A-PEPA, STOMP and SetFinder seem to have slightly better results on real data, according to critical diference diagrams. However, the variations in methods performances between the dataset show the importance of asking precise questions about which time series characteristics influence the performance of the algorithms.
-Thus, in the following sections, we benefit from our synthetic generator in identifying specific challenges.*
+Thus, in the following sections, we benefit from our synthetic generator in identifying specific challenges.

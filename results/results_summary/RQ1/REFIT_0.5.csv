@@ -1,9 +1,9 @@
 ,metrics,MatrixProfile,PanMatrixProfile,LocoMotif,LatentMotif,MDL,Motiflets,BasePersistentPattern,Valmod,Baseline,AdaptativeBasePersistentPattern,Grammarviz
-0,es_fscore_0.5_mean,0.004,0,0,0.026,0,0,0.088,0,0,0.171,0.0
-1,es_fscore_0.5_std,0.032,0,0,0.076,0,0,0.097,0,0,0.148,0.0
-2,es_precision_0.5_mean,0.004,0,0,0.063,0,0,0.057,0,0,0.134,0.095
-3,es_precision_0.5_std,0.029,0,0,0.16,0,0,0.07,0,0,0.145,0.093
-4,es_recall_0.5_mean,0.005,0,0,0.019,0,0,0.555,0,0,0.458,0.0
-5,es_recall_0.5_std,0.037,0,0,0.059,0,0,0.19,0,0,0.175,0.0
-6,execution_time_mean,452.402,0,0,197.137,0,0,1410.364,0,0,1473.707,1.848
-7,execution_time_std,22.816,0,0,46.927,0,0,131.611,0,0,81.781,0.063
+0,es_fscore_0.5_mean,0.003,0,0,0.025,0,0,0.143,0,0,0.163,0.0
+1,es_fscore_0.5_std,0.027,0,0,0.075,0,0,0.127,0,0,0.149,0.0
+2,es_precision_0.5_mean,0.003,0,0,0.058,0,0,0.102,0,0,0.125,0.52
+3,es_precision_0.5_std,0.027,0,0,0.164,0,0,0.105,0,0,0.143,0.2
+4,es_recall_0.5_mean,0.003,0,0,0.018,0,0,0.494,0,0,0.458,0.0
+5,es_recall_0.5_std,0.028,0,0,0.058,0,0,0.173,0,0,0.176,0.0
+6,execution_time_mean,498.185,0,0,231.097,0,0,1283.026,0,0,1311.99,63.469
+7,execution_time_std,96.23,0,0,122.326,0,0,99.678,0,0,121.147,12.253

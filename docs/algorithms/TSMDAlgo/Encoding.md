@@ -4,6 +4,12 @@
 
 Grammarviz [Senin et al. 2018] uses grammar induction methods for motif detection. In practice, the time series is discretized using SAX, and grammar induction techniques, such as Sequitur or RE-PAIR, are applied to the discretized series to identify grammar rules. The most frequent and representative grammar rules are selected, and occurrences of the various motifs are then extracted.
 
+```{eval-rst}  
+.. autoclass:: tsmd.competitors.grammarviz.Grammarviz
+    :members:
+
+```
+
 ### Usage
 
 Grammarviz is written in Java and requires a specific setup. Download it from the following GitHub: <https://github.com/GrammarViz2/grammarviz2_src>, place it in TSMD/tsmd/competitors/competitors_tools/, and follow the installation instructions in the repository. You can then use Grammarviz like any other method:
@@ -21,9 +27,9 @@ gm.fit(signal)
 labels=transform_label(gm.prediction_mask_)
 plot_signal_pattern(signal,labels)
 ```
-```
+
 ![Grammarviz output](../../../assets/methodExample/grammarviz_example.png "Grammarviz output")
-```
+
 
 ### Reference
 

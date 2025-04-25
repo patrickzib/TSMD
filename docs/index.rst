@@ -14,7 +14,7 @@ Welcome to TSMD's documentation!
    algorithms/index
    datasets/index
    evaluation/index
-   
+   guidelines/index
 
 
 Overview

@@ -26,6 +26,14 @@ Installation
 ^^^^^^^^^^^^
 
 Quick start:
+1. Install tsmd with pip. 
+
+You can install tsmd using pip: 
+
+.. code-block:: bash
+
+   pip install tsmd
+2. Install tsmd from source: 
 
 The following tools are required to install TSMD from source:
 
@@ -47,27 +55,40 @@ Create and activate a conda-environment 'TSMD'.
    conda env create --file environment.yml
    conda activate TSMD
 
-You can then install TSMD with pip.
-
-.. code-block:: bash
-
-   pip install tsmd
-
 Usage
 ^^^^^
 
-We depicts below a code snippet demonstrating how to use one motif detection algorithm (in this example, TODO).
+We depicts below a code snippet demonstrating how to use one motif detection algorithm (in this example, we first generate a synthetic time series).
 
 .. code-block:: python
 
-   import os
-   import numpy as np
+   from data.Synthetic.synthetic_signal import SignalGenerator
+
+   generator=SignalGenerator(n_motifs=2, motif_length=200, motif_amplitude=3, motif_fundamental=3, sparsity=0.5, sparsity_fluctuation=0.5)
+   signal,labels= generator.generate()
+   generator.plot()
    
-   TODO
+.. image:: ../assets/methodExample/signal_example.png
+   :alt: Synthetic signal
+   :align: center
+   :target: ../assets/methodExample/signal_example.png
 
-.. code-block:: bash
+.. code-block:: python 
 
-   TODO
+   from tsmd.competitors.persistence import BasePersistentPattern
+   from tsmd.tools.utils import transform_label
+   from tsmd.tools.plotting import plot_signal_pattern
+
+
+   pepa=BasePersistentPattern(wlen_for_persistence=180, n_patterns=2)
+   pepa.fit(signal)
+
+.. image:: /../assets/methodExample/pepa_example.png
+   :alt: PEPA output
+   :align: center
+
+labels=transform_label(pepa.prediction_mask_)
+plot_signal_pattern(signal,labels)
 
 
 License

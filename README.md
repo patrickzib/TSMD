@@ -9,6 +9,7 @@
 </p>
 
 Motif Discovery consists of identifying repeated patterns and locating their occurrences in a time series without prior knowledge about their shape or location. In practice, motif discovery faces several data-related challenges which has led to numerous definitions of the motif discovery problem and algorithms partially encompassing these challenges. In this repo, we provide an exhaustive review of the literature in terms of data-related challenges, motif definitions, and algorithms. We also present an analysis of strengths and weaknesses of algorithms carefully chosen to best represent the literature spectrum. The analysis follows research questions we identified from our review. Our experimental results provide practical guidelines for selecting motif discovery algorithms suitable for the task at hand and open to new research directions. Overall, we provide implementation of the main motif discovery methods proposed in the literature and the experimental scripts to compare them in terms of accuracy and execution time.
+
 ## License
 
 The project is licensed under the *MIT License*: <https://mit-license.org>.
@@ -44,6 +45,37 @@ You can use the following BibTeX entries:
 ## Installation
 
 We provide below some important guidelines to use our datasets or implemented algorithms.
+
+### 1. Install TSMD with pip
+
+You can install TSMD using pip:
+
+```bash
+pip install tsmd
+```
+
+### 2. Install tsmd from source: 
+
+The following tools are required to install TSMD from source:
+
+- git
+- conda (anaconda or miniconda)
+
+
+Clone this `repository <https://github.com/grrvlr/TSMD.git>`_ using git and go into its root directory.
+
+```bash
+
+   git clone https://github.com/grrvlr/TSMD.git
+   cd TSMD/
+```
+Create and activate a conda-environment 'TSMD'.
+
+```bash
+
+   conda env create --file environment.yml
+   conda activate TSMD
+```
 
 ## Time series Datasets for Motif Discovery
 

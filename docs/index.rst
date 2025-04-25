@@ -25,15 +25,15 @@ The TSMD project brings together Motif Discovery methods for Time Series, aiming
 Installation
 ^^^^^^^^^^^^
 
-Quick start:
-1. Install tsmd with pip. 
-
+Install tsmd with pip
+~~~~~~~~~~~~~~~~~~~~~
 You can install tsmd using pip: 
 
 .. code-block:: bash
 
    pip install tsmd
-2. Install tsmd from source: 
+Install tsmd from source 
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following tools are required to install TSMD from source:
 

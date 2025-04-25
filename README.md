@@ -77,6 +77,8 @@ Create and activate a conda-environment 'TSMD'.
    conda activate TSMD
 ```
 
+For more details on documentation, please see <https://tsmd.readthedocs.io/en/latest/index.html>.
+
 ## Time series Datasets for Motif Discovery
 
 First, due to limitations in the upload size on GitHub, we host the datasets at a different location. Please download the datasets using the following links:

@@ -12,4 +12,7 @@ results/RQ8
 data/processed_data
 usage_examples.ipynb
 synthetic_example
+dist/
+build/
+*.egg-info/
 

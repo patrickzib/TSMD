@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tsmd"  # le nom sous lequel les gens feront `pip install mon-package`
-version = "0.1.0"
+version = "0.1.1"
 description = "The TSMD project brings together Motif Discovery methods for Time Series, aiming to compare their performance through well-defined research questions and to simplify their practical use. It provides both guidelines for selecting the most suitable methods based on the data, and accessible implementations of the most relevant approaches."
 authors = [
   { name = "Valerio Guerrini", email = "valerio.guerrini@ens-paris-saclay.fr"},

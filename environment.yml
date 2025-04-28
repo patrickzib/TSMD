@@ -1,1 +1,15 @@
-
+name: tsmd
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.10
+  - numpy
+  - scipy
+  - scikit-learn
+  - matplotlib
+  - pandas
+  - os
+  - pip
+  - pip:
+      - tsmd

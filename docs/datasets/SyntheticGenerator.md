@@ -3,7 +3,7 @@
 This section introduces the synthetic time series generator used to produce data for investigating research questions 2 to 6.
 
 ```{eval-rst}  
-.. autoclass:: data.Synthetic.synthetic_signal.SignalGenerator
+.. autoclass:: tsmd.tools.synthetic_signal.SignalGenerator
     :members:
 ```
 
@@ -11,7 +11,7 @@ This section introduces the synthetic time series generator used to produce data
 
 ### Example 1 (Motifs of same average size, number of occurences randomly selected within an interval)
 ```python
-from data.Synthetic.synthetic_signal import SignalGenerator
+from tsmd.tools.synthetic_signal import SignalGenerator
 
 generator=SignalGenerator(n_motifs=3, motif_length=200, motif_amplitude=2, motif_fundamental=3, 
                            noise_amplitude = 0.5, length_fluctuation=0.5, amplitude_fluctuation=0.5,

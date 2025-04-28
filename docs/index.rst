@@ -62,7 +62,7 @@ We depicts below a code snippet demonstrating how to use one motif detection alg
 
 .. code-block:: python
 
-   from data.Synthetic.synthetic_signal import SignalGenerator
+   from tsmd.tools.synthetic_signal import SignalGenerator
 
    generator=SignalGenerator(n_motifs=2, motif_length=200, motif_amplitude=3, motif_fundamental=3, sparsity=0.5, sparsity_fluctuation=0.5)
    signal,labels= generator.generate()
@@ -82,14 +82,12 @@ We depicts below a code snippet demonstrating how to use one motif detection alg
 
    pepa=BasePersistentPattern(wlen_for_persistence=180, n_patterns=2)
    pepa.fit(signal)
+   labels=transform_label(pepa.prediction_mask_)
+   plot_signal_pattern(signal,labels)
 
 .. image:: /../assets/methodExample/pepa_example.png
    :alt: PEPA output
    :align: center
-
-labels=transform_label(pepa.prediction_mask_)
-plot_signal_pattern(signal,labels)
-
 
 License
 ^^^^^^^

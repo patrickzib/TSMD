@@ -27,7 +27,7 @@ These criteria led us to choose the following methods:
 We describe each algorithm in the sections below and provide code snippets on how to use them. In all the following sections, we a synthetic time series as an example. The latter is generated as follows:
 
 ```python
-from data.Synthetic.synthetic_signal import SignalGenerator
+from tsmd.tools.synthetic_signal import SignalGenerator
 
 generator=SignalGenerator(n_motifs=2, motif_length=200, motif_amplitude=3, motif_fundamental=3, sparsity=0.5, sparsity_fluctuation=0.5)
 signal,labels= generator.generate()

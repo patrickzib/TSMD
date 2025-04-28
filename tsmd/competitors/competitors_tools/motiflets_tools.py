@@ -19,7 +19,6 @@ import pandas as pd
 from joblib import Parallel, delayed
 from scipy.signal import argrelextrema
 from scipy.stats import zscore
-from tqdm.auto import tqdm
 
 
 def as_series(data, index_range, index_name):

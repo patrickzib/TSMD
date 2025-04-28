@@ -1,7 +1,5 @@
-import time
 
 import numpy as np
-from scipy.stats import zscore
 
 import tsmd.competitors.competitors_tools.motiflets_tools as ml
 

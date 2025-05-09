@@ -121,4 +121,4 @@ Contributors
 - Thibaut Germain (Centre Borelli, ENS Paris Saclay, Université Paris Cité)
 - Charles Truong (Centre Borelli, ENS Paris Saclay, Université Paris Cité)
 - Laurent Oudre (Centre Borelli, ENS Paris Saclay, Université Paris Cité)
-- Paul Boniol (Inria, ENS, CNRS, PLS University)
+- Paul Boniol (Inria, ENS, CNRS, PSL University)

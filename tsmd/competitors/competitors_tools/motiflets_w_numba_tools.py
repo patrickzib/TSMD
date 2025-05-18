@@ -950,9 +950,10 @@ def find_au_ef_motif_length(
     elbows = elbows[::-1]
     dists = dists[::-1]
 
-    for i in range(len(top_motiflets)):
-        if top_motiflets[i] is not None:
-            top_motiflets[i] = top_motiflets[i] * subsample
+    if subsample > 1:
+        for i in range(len(top_motiflets)):
+            if top_motiflets[i] is not None:
+                top_motiflets[i] = top_motiflets[i] * subsample
     top_motiflets[::-1]
 
     # Minima in AU_EF

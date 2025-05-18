@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 
 # import tsmd.competitors.competitors_tools.motiflets_tools as ml
@@ -105,7 +107,9 @@ class Motiflets:
             exclusion=None,
             elbow_deviation=self.elbow_deviation,
             slack=self.slack,
-            subsample=subsample)
+            subsample=subsample,
+            n_jobs=os.cpu_count()
+        )
 
         motiflets = []
         for i in range(len(top_motiflets)):

@@ -14,8 +14,6 @@ import numpy as np
 import numpy.fft as fft
 import pandas as pd
 from joblib import Parallel, delayed
-import pkg_resources
-# pkg_resources.require("numba==0.56.0")
 from numba import njit, prange, objmode, types
 from numba.typed import Dict, List
 from scipy.signal import argrelextrema
@@ -930,15 +928,14 @@ def find_au_ef_motif_length(
                              / len(dists_))
 
             elbow_points = _filter_unique(elbow_points, candidates, m // subsample)
-            candidates[0:2] = [-1]
 
             if len(elbow_points > 0):
                 elbows[i] = elbow_points
-                top_motiflets[i] = candidates# [elbow_points]
+                top_motiflets[i] = candidates[elbow_points]
             else:
                 # we found only the pair motif
                 elbows[i] = [2]
-                top_motiflets[i] = candidates # [candidates[2]]
+                top_motiflets[i] = [candidates[2]]
 
                 # no elbow can be found, ignore this part
                 au_efs[i] = 1.0
@@ -949,12 +946,7 @@ def find_au_ef_motif_length(
     au_efs = np.array(au_efs, dtype=np.float64)[::-1]
     elbows = elbows[::-1]
     dists = dists[::-1]
-
-    if subsample > 1:
-        for i in range(len(top_motiflets)):
-            if top_motiflets[i] is not None:
-                top_motiflets[i] = top_motiflets[i] * subsample
-    top_motiflets[::-1]
+    top_motiflets = top_motiflets[::-1] * subsample
 
     # Minima in AU_EF
     minimum = motif_length_range[np.nanargmin(au_efs)]
@@ -1080,10 +1072,10 @@ def search_k_motiflets_elbow(
     exclusion_m = int(m * slack)
 
     upper_bound = np.inf
-    for test_k in tqdm(range(k_max_ - 1, 1, -1),
-                       desc='Compute ks (' + str(k_max_) + ")",
-                       position=0, leave=False):
-
+    #for test_k in tqdm(range(k_max_ - 1, 1, -1),
+    #                   desc='Compute ks (' + str(k_max_) + ")",
+    #                   position=0, leave=False):
+    for test_k in range(k_max_ - 1, 1, -1):
         # Top-N retrieval
         if exclusion is not None and exclusion[test_k] is not None:
             if not sparse:

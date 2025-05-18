@@ -1,7 +1,8 @@
-
 import numpy as np
 
-import tsmd.competitors.competitors_tools.motiflets_tools as ml
+# import tsmd.competitors.competitors_tools.motiflets_tools as ml
+import tsmd.competitors.competitors_tools.motiflets_w_numba_tools as ml
+
 
 class Motiflets:
     """k-Motiflets algorithm for motif discovery.
@@ -9,7 +10,7 @@ class Motiflets:
     Parameters
     ----------
     k_max : int 
-        Maximum number of occurences of a single motif.
+        Maximum number of occurrences of a single motif.
     min_wlen : int
         Minimium window length.
     max_wlen : int 
@@ -29,6 +30,7 @@ class Motiflets:
         Each row corresponds to one discovered motif, and each column to a time step.  
         A value of 1 means the motif is present at that time step, and 0 means it is not.
         """
+
     def __init__(
             self,
             k_max,
@@ -40,13 +42,21 @@ class Motiflets:
         self.elbow_deviation = elbow_deviation
         self.slack = slack
 
-        self.motif_length_range = np.arange(min_wlen,max_wlen+1)
+        self.motif_length_range = np.int32(
+            np.arange(
+                min_wlen,
+                max_wlen + 1,
+                (max_wlen+1-min_wlen) / 3
+            )
+        )
         self.motif_length = 0
-    
 
-        self.k_max = k_max +1 
+        self.k_true = k_max
 
-    def fit(self,signal):
+        # k_max has to be set to at least k_max + 2 to find an elbow at k_max
+        self.k_max = k_max + 2
+
+    def fit(self, signal):
         """Fit Motiflets
         
         Parameters
@@ -59,17 +69,13 @@ class Motiflets:
         self : object
             Fitted estimator.
         """
-        self.signal=signal
+        self.signal = signal
         self.fit_motif_length()
-        self.fit_k_elbow()
+        # self.fit_k_elbow()
 
     def fit_motif_length(
             self,
-            subsample=2,
-            # plot=True,
-            # plot_elbows=False,
-            # plot_motifs_as_grid=True,
-            # plot_best_only=True
+            subsample=1
     ):
         """Computes the AU_EF plot to extract the best motif lengths
 
@@ -91,67 +97,35 @@ class Motiflets:
                 The motif length that maximizes the AU-EF.
 
             """
+        self.motif_length, au_ef_minima, au_efs, elbows, top_motiflets, dists \
+            = ml.find_au_ef_motif_length(
+            self.signal,
+            self.k_max,
+            self.motif_length_range,
+            exclusion=None,
+            elbow_deviation=self.elbow_deviation,
+            slack=self.slack,
+            subsample=subsample)
 
-
-        self.motif_length = ml.find_au_ef_motif_length(self.signal,self.k_max,self.motif_length_range,exclusion=None,elbow_deviation=self.elbow_deviation,slack=self.slack,subsample=subsample)[0]
+        motiflets = []
+        for i in range(len(top_motiflets)):
+            motiflets.append(top_motiflets[i][np.append(elbows[i], [self.k_true])])
+            ## motiflets.append(top_motiflets[i][elbows[i]])
+        self.motiflets = motiflets
+        self.motif_lengths = self.motif_length_range
 
         return self.motif_length
 
-    def fit_k_elbow(
-            self,
-            motif_length=None,  # if None, use best_motif_length
-            exclusion=None,
-    ):
-        """Plots the elbow-plot for k-Motiflets.
-
-            This is the method to find and plot the characteristic k-Motiflets within range
-            [2...k_max] for given a `motif_length` using elbow-plots.
-
-            Details are given within the paper Section 5.1 Learning meaningful k.
-
-            Parameters
-            ----------
-            k_max: int
-                use [2...k_max] to compute the elbow plot (user parameter).
-            motif_length: int
-                the length of the motif (user parameter)
-            exclusion: 2d-array
-                exclusion zone - use when searching for the TOP-2 motiflets
-            filter: bool, default=True
-                filters overlapping motiflets from the result,
-            plot_elbows: bool, default=False
-                plots the elbow ploints into the plot
-
-            Returns
-            -------
-            Tuple
-                dists:          distances for each k in [2...k_max]
-                candidates:     motifset-candidates for each k
-                elbow_points:   elbow-points
-
-            """
-
-        if motif_length is None:
-            motif_length = self.motif_length
-        else:
-            self.motif_length = motif_length
-        self.dists, self.motiflets, self.elbow_points, _ = ml.search_k_motiflets_elbow(
-        self.k_max,
-        self.signal,
-        motif_length,
-        exclusion=exclusion,
-        elbow_deviation=self.elbow_deviation,
-        slack=self.slack)
-
-        return self.dists, self.motiflets, self.elbow_points
-
     @property
-    def prediction_mask_(self)->np.ndarray: 
-        n_motifs=self.elbow_points.shape[0]
-        mask=np.zeros((n_motifs,self.signal.shape[0]))
-        for i in range(self.elbow_points.shape[0]):
-            elbow=self.elbow_points[i]
-            motif_starts=self.motiflets[elbow]
-            for j in range(motif_starts.shape[0]):
-                mask[i,motif_starts[j]:motif_starts[j]+self.motif_length]=1
+    def prediction_mask_(self) -> np.ndarray:
+        n_motifs = np.sum([len(self.motiflets[i]) for i in range(len(self.motiflets))])
+
+        pos = 0
+        mask = np.zeros((n_motifs, self.signal.shape[0]))
+        for i in range(len(self.motiflets)):
+            motif_length = self.motif_lengths[i]
+            for motif_starts in self.motiflets[i]:
+                for j in range(len(motif_starts)):
+                    mask[pos, motif_starts[j]:motif_starts[j] + motif_length] = 1
+                pos += 1
         return mask
